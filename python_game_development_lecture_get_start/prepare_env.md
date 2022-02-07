@@ -96,3 +96,42 @@ opensuse:~ $ python3.9 -m tkinter
 (<venv>) opensuse:~ $ python -m pygame.examples.aliens
 ```
 
+
+### pylint
+
+```bash
+(<venv>) opensuse:~ $ pip install pylint
+(<venv>) opensuse:~ $ pylint hello.py
+```
+
+
+### autopep8
+
+```bash
+(<venv>) opensuse:~ $ pip install autopep8
+(<venv>) opensuse:~ $ autopep8 hello.py
+```
+
+
+---
+
+## vscode
+
+### setting
+
+```bash
+// settings.json
+{
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    // "python.linting.pylintArgs": ["--disable=C0111"],
+    "files.trimTrailingWhitespace": true,
+    "[python]":{
+        "editor.formatOnType": true,
+        "editor.formatOnSave": true,
+        "editor.insertSpaces": true,
+        "editor.detectIndentation": true,
+        "editor.tabSize": 4
+    }
+}
+```
