@@ -119,7 +119,7 @@ opensuse:~ $ autopep8 hello.py
 
 ### setting
 
-```bash
+```json
 // settings.json
 {
     "python.linting.enabled": true,
