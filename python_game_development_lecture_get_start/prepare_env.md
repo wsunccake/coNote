@@ -35,19 +35,19 @@ opensuse:~ $ source py39/bin/activate
 ### pip
 
 ```bash
-(<venv>) opensuse:~ $ which pip
-(<venv>) opensuse:~ $ pip help
-(<venv>) opensuse:~ $ pip list
-(<venv>) opensuse:~ $ pip search <package>
-(<venv>) opensuse:~ $ pip install <package>[==<version>]
-(<venv>) opensuse:~ $ pip uninstall <package>
+opensuse:~ $ which pip
+opensuse:~ $ pip help
+opensuse:~ $ pip list
+opensuse:~ $ pip search <package>
+opensuse:~ $ pip install <package>[==<version>]
+opensuse:~ $ pip uninstall <package>
 ```
 
 ### ipython
 
 ```bash
-(<venv>) opensuse:~ $ pip install ipython
-(<venv>) opensuse:~ $ ipython
+opensuse:~ $ pip install ipython
+opensuse:~ $ ipython
 In []: %run <file>.py               # run/load python file
 In []: %run -d -b <n> <file>.py     # run python with pdb / debug
 ipdb> ?         # help
@@ -75,9 +75,9 @@ In []: %hist -f <file>.py
 ### jupyter
 
 ```bash
-(<venv>) opensuse:~ $ pip install jupyter
-(<venv>) opensuse:~ $ jupyter notebook password     # $HOME/.jupyter/jupyter_notebook_config.json
-(<venv>) opensuse:~ $ jupyter notebook [--ip=0.0.0.0] [--port=8888]
+opensuse:~ $ pip install jupyter
+opensuse:~ $ jupyter notebook password     # $HOME/.jupyter/jupyter_notebook_config.json
+opensuse:~ $ jupyter notebook [--ip=0.0.0.0] [--port=8888]
 ```
 
 
@@ -92,24 +92,24 @@ opensuse:~ $ python3.9 -m tkinter
 ### pygame
 
 ```bash
-(<venv>) opensuse:~ $ pip install pygame
-(<venv>) opensuse:~ $ python -m pygame.examples.aliens
+opensuse:~ $ pip install pygame
+opensuse:~ $ python -m pygame.examples.aliens
 ```
 
 
 ### pylint
 
 ```bash
-(<venv>) opensuse:~ $ pip install pylint
-(<venv>) opensuse:~ $ pylint hello.py
+opensuse:~ $ pip install pylint
+opensuse:~ $ pylint hello.py
 ```
 
 
 ### autopep8
 
 ```bash
-(<venv>) opensuse:~ $ pip install autopep8
-(<venv>) opensuse:~ $ autopep8 hello.py
+opensuse:~ $ pip install autopep8
+opensuse:~ $ autopep8 hello.py
 ```
 
 
