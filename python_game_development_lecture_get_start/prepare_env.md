@@ -122,16 +122,35 @@ opensuse:~ $ autopep8 hello.py
 ```json
 // settings.json
 {
-    "python.linting.enabled": true,
-    "python.linting.pylintEnabled": true,
-    // "python.linting.pylintArgs": ["--disable=C0111"],
     "files.trimTrailingWhitespace": true,
+    "python.linting.enabled": true,
+    // linter option: 'bandit', 'flask8', 'mypy', 'prospector',
+    //                'pycodestyle', 'pylama', 'pylint'
+    // "python.linting.pylintEnabled": true,
+    // "python.linting.pylintArgs": ["--disable=C0111"],
+    "python.linting.mypyEnabled" : true,
+    // formater option: 'autopep8', 'black', 'yapf'
+	"python.formatting.provider": "autopep8",
     "[python]":{
         "editor.formatOnType": true,
         "editor.formatOnSave": true,
         "editor.insertSpaces": true,
         "editor.detectIndentation": true,
         "editor.tabSize": 4
-    }
+    },
+    "editor.rulers": [
+        {
+          "column": 80,
+          "color": "#ff9900"
+        },
+        {
+            "column":100,
+            "color":"#fbff11"
+        },
+        {
+         "column": 120,
+         "color": "#9f0af5"
+        },
+    ],
 }
 ```
