@@ -140,17 +140,17 @@ opensuse:~ $ autopep8 hello.py
     },
     "editor.rulers": [
         {
-          "column": 80,
-          "color": "#ff9900"
+          "column": 80,        // spacing of 1st column from left
+          "color": "#ff9900"   // orange, Go Vols!
         },
         {
             "column":100,
             "color":"#fbff11"
         },
         {
-         "column": 120,
-         "color": "#9f0af5"
-        },
-    ],
+         "column": 120,        // third ruler
+         "color": "#9f0af5"    // purple, go Pirates! 
+        }
+    ]
 }
 ```
