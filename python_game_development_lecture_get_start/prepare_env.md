@@ -119,13 +119,18 @@ opensuse:~ $ autopep8 hello.py
 
 ### setting
 
-```bash
+```json
 // settings.json
 {
-    "python.linting.enabled": true,
-    "python.linting.pylintEnabled": true,
-    // "python.linting.pylintArgs": ["--disable=C0111"],
     "files.trimTrailingWhitespace": true,
+    "python.linting.enabled": true,
+    // linter option: 'bandit', 'flask8', 'mypy', 'prospector',
+    //                'pycodestyle', 'pylama', 'pylint'
+    // "python.linting.pylintEnabled": true,
+    // "python.linting.pylintArgs": ["--disable=C0111"],
+    "python.linting.mypyEnabled" : true,
+    // formater option: 'autopep8', 'black', 'yapf'
+	"python.formatting.provider": "autopep8",
     "[python]":{
         "editor.formatOnType": true,
         "editor.formatOnSave": true,
@@ -135,7 +140,7 @@ opensuse:~ $ autopep8 hello.py
     },
     "editor.rulers": [
         {
-          "column": 80,    // spacing of 1st column from left
+          "column": 80,        // spacing of 1st column from left
           "color": "#ff9900"   // orange, Go Vols!
         },
         {
@@ -143,9 +148,9 @@ opensuse:~ $ autopep8 hello.py
             "color":"#fbff11"
         },
         {
-         "column": 120,      // third ruler
-         "color": "#9f0af5"  // purple, go Pirates! 
-        },
+         "column": 120,        // third ruler
+         "color": "#9f0af5"    // purple, go Pirates! 
+        }
     ]
 }
 ```
