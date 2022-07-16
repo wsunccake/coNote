@@ -5,6 +5,7 @@ EXECUTABLE = monkey.exe
 .PHONY: build
 build:
 	make clean
+	make test
 	make main
 
 main: main.go
@@ -26,3 +27,7 @@ init:
 run: main
 	@echo "run..."
 	./${EXECUTABLE}
+
+.PHONY: test
+test:
+	go test monkey/lexer
