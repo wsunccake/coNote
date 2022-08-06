@@ -30,4 +30,7 @@ run: main
 
 .PHONY: test
 test:
+	go test monkey/ast
 	go test monkey/lexer
+	go test monkey/parser
+	go test monkey/evaluator
