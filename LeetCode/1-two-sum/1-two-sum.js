@@ -52,15 +52,31 @@ var twoSum = function(nums, target) {
     return [0, 0];
 };
 
+let input1
+let input2
+let answer1
+let answer2
 
-let sol1 = twoSum([1, 2, 3], 6);
-console.assert(sol1[0] === 0, 'Fail');
-console.assert(sol1[1] === 0, 'Fail');
+input1 = [1, 2, 3]
+input2 = 6
+answer1 = 0
+answer2 = 0
+let sol1 = twoSum(input1, input2);
+console.assert(sol1[0] === answer1, `${answer1} Fail`);
+console.assert(sol1[1] === answer2, `${answer2} Fail`);
 
+input1 = [3, 2, 4]
+input2 = 6
+answer1 = 1
+answer2 = 2
 let sol2 = twoSum([3, 2, 4], 6);
-console.assert(sol2[0] === 1, 'Fail');
-console.assert(sol2[1] === 2, 'Fail');
+console.assert(sol2[0] === answer1, `${answer1} Fail`);
+console.assert(sol2[1] === answer2, `${answer2} Fail`);
 
+input1 = [3, 3]
+input2 = 6
+answer1 = 0
+answer2 = 1
 let sol3 = twoSum([3, 3], 6)
-console.assert(sol3[0] === 0, 'Fail');
-console.assert(sol3[1] === 1, 'Fail');
+console.assert(sol3[0] === answer1, `${answer1} Fail`);
+console.assert(sol3[1] === answer2, `${answer2} Fail`);
