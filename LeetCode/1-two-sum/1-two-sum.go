@@ -22,16 +22,34 @@ func twoSum(nums []int, target int) []int {
 
 
 func main() {
-    sol1 := twoSum([]int{1 ,2 ,3}, 6)
-    if sol1[0] != 0  { fmt.Println(false) }
-    if sol1[1] != 0  { fmt.Println(false) }
+    var input1 []int
+    var input2 int
+    var answer1 int
+    var answer2 int
+    var sol []int
 
-    sol2 := twoSum([]int{3 ,2 ,4}, 6)
-    if sol2[0] != 1  { fmt.Println(false) }
-    if sol2[1] != 2  { fmt.Println(false) }
+    input1 = []int{1, 2, 3}
+    input2 = 6
+    answer1 = 0
+    answer2 = 0
+    sol = twoSum(input1, input2)
+    if sol[0] != answer1  { fmt.Printf("%d false\n", answer1) }
+    if sol[1] != answer2  { fmt.Printf("%d false\n", answer2) }
 
-    sol3 := twoSum([]int{3 ,3}, 6)
-    if sol3[0] != 0  { fmt.Println(false) }
-    if sol3[1] != 1  { fmt.Println(false) }
+    input1 = []int{3, 2, 4}
+    input2 = 6
+    answer1 = 1
+    answer2 = 2
+    sol = twoSum(input1, input2)
+    if sol[0] != answer1  { fmt.Printf("%d false\n", answer1) }
+    if sol[1] != answer2  { fmt.Printf("%d false\n", answer2) }
+
+    input1 = []int{3, 3}
+    input2 = 6
+    answer1 = 0
+    answer2 = 1
+    sol = twoSum(input1, input2)
+    if sol[0] != answer1  { fmt.Printf("%d false\n", answer1) }
+    if sol[1] != answer2  { fmt.Printf("%d false\n", answer2) }
 }
 
