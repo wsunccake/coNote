@@ -4,9 +4,11 @@
 
 git, go
 
+vscode / goland
+
 ---
 
-## run
+## run go
 
 ```bash
 # download code
