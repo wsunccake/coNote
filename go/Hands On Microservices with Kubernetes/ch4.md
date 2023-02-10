@@ -51,15 +51,24 @@ linux:~/delinkcious $ kubectl apply -f svc/social_graph_service/k8s
 -> cd
 
 ```bash
+# install argo cd
+linux:~ $ kubectl create namespace argocd
+linux:~ $ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+# install argo cd cli
+linux:~ $ VERSION=2.6.1
+linux:~ $ curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64
+linux:~ $ sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+
 # port forward
-linux:~ $ kubectl -- port-forward svc/argocd-server -n argocd 8080:443
+linux:~ $ kubectl --namespace argocd port-forward svc/argocd-server 8080:443
 
 # argo password
-linux:~ $ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+linux:~ $ kubectl --namespace argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 
 # argo cd
 linux:~ $ argocd login :8080 --username admin --password <password> --insecure
-argocd app create social --repo https://github.com/the-gigi/delinkcious.git --path svc/social_graph_service/k8s --dest-namespace default --dest-server https://kubernetes.default.svc --revision v0.2
+linux:~ $ argocd app create social --repo https://github.com/the-gigi/delinkcious.git --path svc/social_graph_service/k8s --dest-namespace default --dest-server https://kubernetes.default.svc --revision v0.2
 linux:~ $ argocd app list
 linux:~ $ argocd app sync social
 ```
