@@ -40,7 +40,6 @@ fmt.Fprintf(&c, "hello, %s", name)
 fmt.Println(c) // "12", = len("hello, Dolly")
 ```
 
-
 ---
 
 ## interface type
@@ -78,7 +77,6 @@ type ReadWriteCloser interface {
     Closer
 }
 ```
-
 
 ---
 
@@ -131,7 +129,6 @@ any = map[string]int{"one": 1}
 any = new(bytes.Buffer)
 ```
 
-
 ---
 
 ## parsing flags with flag.Value
@@ -139,7 +136,7 @@ any = new(bytes.Buffer)
 ```go
 // sleep
 var period = flag.Duration("period", 1*time.Second, "sleep period")
-    
+
 func main() {
     flag.Parse()
     fmt.Printf("Sleeping for %v...", *period)
@@ -213,7 +210,6 @@ Usage of ./tempflag:
       the temperature (default 20°C)
 ```
 
-
 ---
 
 ## interface value
@@ -242,7 +238,6 @@ fmt.Printf("%T\n", w) // "*os.File"
 w = new(bytes.Buffer)
 fmt.Printf("%T\n", w) // "*bytes.Buffer"
 ```
-
 
 ### caveat: an interface containing a nil pointer is non-nil
 
@@ -282,7 +277,6 @@ if debug {
 }
 f(buf) // OK
 ```
-
 
 ---
 
@@ -351,7 +345,6 @@ sort.Sort(byArtist(tracks))
 //Ready 2 Go  Martin Solveig  Smash               2011 4m24s
 //Go          Moby            Moby                1992 3m37s
 ```
-
 
 ---
 
@@ -466,16 +459,13 @@ func main() {
 }
 ```
 
-
 ---
 
 ## error interface
 
-
 ---
 
 ## example: expression evaluator
-
 
 ---
 
@@ -507,26 +497,21 @@ f, ok := w.(*os.File)      // success:  ok, f == os.Stdout
 b, ok := w.(*bytes.Buffer) // failure: !ok, b == nil
 ```
 
-
 ---
 
 ## discriminating error with type assertion
-
 
 ---
 
 ## querying behavior with interface type assertion
 
-
 ---
 
 ## type switch
 
-
 ---
 
 ## example: token-based XML decoding
-
 
 ---
 

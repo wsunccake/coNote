@@ -43,7 +43,6 @@ for i := 0; i < 3; i++ {
 fmt.Println("2d: ", twoD)       // [[0] [1 2] [2 3 4]]
 ```
 
-
 ---
 
 ## for range
@@ -55,7 +54,6 @@ for i, e := range twoD {
 }
 fmt.Println(reflect.TypeOf(twoD))
 ```
-
 
 ---
 
@@ -93,7 +91,6 @@ fmt.Printf("array: %+v\n", array1)
 fmt.Printf("slice: %+v\n", slice1)
 ```
 
-
 ---
 
 ## function
@@ -123,7 +120,6 @@ func main() {
 }
 ```
 
-
 ---
 
 ## os.Args
@@ -140,7 +136,6 @@ func main() {
 	fmt.Println(os.Args)
 }
 ```
-
 
 ```bash
 linux:~ $ go run main.go 1 a Z

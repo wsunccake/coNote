@@ -3,7 +3,7 @@
 ## go
 
 ```go
-	
+
 func f(from string) {
     for i := 0; i < 3; i++ {
         fmt.Println(from, ":", i)
@@ -48,7 +48,6 @@ func main() {
 	fmt.Println("end main()")
 }
 ```
-
 
 ---
 
@@ -99,7 +98,6 @@ func main() {
 }
 ```
 
-
 ---
 
 ### channel
@@ -127,7 +125,6 @@ func main() {
 }
 ```
 
-
 ---
 
 ## race condition
@@ -150,7 +147,6 @@ linux:~/hello $ go run -race
 linux:~/hello $ go build -race
 linux:~/hello $ go install -race
 ```
-
 
 ---
 

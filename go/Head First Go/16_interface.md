@@ -47,7 +47,6 @@ func main() {
 }
 ```
 
-
 ---
 
 ## anonymous interface
@@ -80,7 +79,6 @@ func main() {
 	printInfo(mary)
 }
 ```
-
 
 ---
 

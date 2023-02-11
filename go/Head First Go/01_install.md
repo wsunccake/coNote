@@ -6,7 +6,6 @@
 centos:~ # yum install golang
 ```
 
-
 ---
 
 ## ubuntu
@@ -14,7 +13,6 @@ centos:~ # yum install golang
 ```bash
 ubuntu:~ # apt install golang
 ```
-
 
 ---
 

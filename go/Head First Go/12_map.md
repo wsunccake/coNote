@@ -22,7 +22,6 @@
 	fmt.Println("map:", n)          // map[bar:2 foo:1]
 ```
 
-
 ---
 
 ## for range
@@ -33,7 +32,6 @@ for k, v := range n {
 	fmt.Println(k, v)
 }
 ```
-
 
 ---
 
@@ -64,7 +62,6 @@ func main() {
 }
 ```
 
-
 ---
 
 ## map to map
@@ -78,7 +75,6 @@ mm1["b"] = map[string]string{"bb": "bbb"}
 fmt.Println("mm1", mm1)
 ```
 
-
 ---
 
 ## map to slice
@@ -91,7 +87,6 @@ as1 := map[string][]string{"a": {"a", "1"}}
 as1["b"] = []string{"b", "2"}
 fmt.Println("am1", as1)
 ```
-
 
 ---
 

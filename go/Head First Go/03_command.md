@@ -17,7 +17,6 @@ linux:~ $ go get
 linux:~ $ go test
 ```
 
-
 ---
 
 ## env
@@ -33,7 +32,6 @@ GOPATH: workspace
 GO111MODULE: module mode off, on, auto
 GOBIN:
 ```
-
 
 ---
 
