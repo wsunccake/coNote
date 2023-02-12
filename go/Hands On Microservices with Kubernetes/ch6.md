@@ -170,11 +170,11 @@ linux:~ $ echo <ca crt code> | base64 -d > <ca crt file>
 ### kubectl
 
 ```bash
-kubectl config set-cluster <new context> --server=https://192.168.49.2:8443 --certificate-authority <ca crt file>
-kubectl config set-context <new context> --cluster=<new context>
-kubectl config set-credentials user --token <token>
-kubectl config set-context <new context> --user=<user>
-kubectl config use-context <new context>
+linux:~ $ kubectl config set-cluster <new context> --server=https://192.168.49.2:8443 --certificate-authority <ca crt file>
+linux:~ $ kubectl config set-context <new context> --cluster=<new context>
+linux:~ $ kubectl config set-credentials user --token <token>
+linux:~ $ kubectl config set-context <new context> --user=<user>
+linux:~ $ kubectl config use-context <new context>
 ```
 
 ---
@@ -200,7 +200,7 @@ linux:~ $ curl --insecure  --header "Authorization: Bearer $TOKEN" $API_SERVER/a
 
 ```bash
 # argocd
-linux:~ $ argocd app create link --repo https://github.com/the-gigi/delinkcious.git --path svc/link_service/k8s --dest-namespace default --dest-server https://kubernetes.default.svc --revision v0.4
+linux:~ $ argocd app create link-service --repo https://github.com/the-gigi/delinkcious.git --path svc/link_service/k8s --dest-namespace default --dest-server https://kubernetes.default.svc --revision v0.4
 linux:~ $ argocd app list
-linux:~ $ argocd app sync link
+linux:~ $ argocd app sync link-service
 ```

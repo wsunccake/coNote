@@ -190,4 +190,10 @@ linux:~/delinkcious $ kubectl apply -f svc/link_service/k8s/configmap.yaml.yaml
 
 # deploy service
 linux:~/delinkcious $ kubectl apply -f svc/link_service/k8s/link_manager.yaml
+
+
+# argo cd
+linux:~ $ argocd app create link-service --repo https://github.com/the-gigi/delinkcious.git --path svc/link_service/k8s --dest-namespace default --dest-server https://kubernetes.default.svc --revision v0.3
+linux:~ $ argocd app list
+linux:~ $ argocd app sync link-service
 ```
