@@ -434,6 +434,15 @@ linux:~ $ kubectl delete configmap,service,pvc -l app=mysql
 
 ---
 
+## serivce
+
+```bash
+linux:~/delinkcious $ git checkout v0.6
+linux:~/delinkcious $ cat user_service/k8s/statefulset.yaml
+```
+
+---
+
 ## ref
 
 [Connecting Applications with Services](https://kubernetes.io/docs/tutorials/services/connect-applications-service/)
