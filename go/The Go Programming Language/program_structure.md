@@ -18,7 +18,6 @@ func fToC(f float64) float64 {
 }
 ```
 
-
 ---
 
 ## variable
@@ -31,7 +30,6 @@ var i, j, k int    // int, int, int
 var b, f, s = true, 2.3, "four"   // bool, float64, string
 ```
 
-
 ### short variable declaration
 
 ```go
@@ -39,7 +37,6 @@ i := 100                   // int
 var boiling float64 = 100  // float64
 i, j := 0, 1
 ```
-
 
 ### pointer
 
@@ -103,7 +100,6 @@ Usage of ./echo4:
         separator (default " ")
 ```
 
-
 ### new function
 
 ```go
@@ -125,7 +121,6 @@ p := new(int)
 q := new(int)
 fmt.Println(p == q) // "false"
 ```
-
 
 ### lifetime of variable
 
@@ -165,7 +160,6 @@ v++ //sameasv=v+1;vbecomes2
 v-- //sameasv=v-1;vbecomes1again
 ```
 
-
 ### tuple assignment
 
 ```go
@@ -195,7 +189,6 @@ v, ok = <-ch                 // channel receive
 _, err = io.Copy(dst, src)   // discard byte count
 _, ok = x.(T)                // check type but discard result
 ```
-
 
 ### assignability
 

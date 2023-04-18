@@ -21,7 +21,6 @@ panic("oh no")			// panic: oh no
 fmt.Println("b")
 ```
 
-
 ---
 
 ## func
@@ -41,7 +40,6 @@ func main() {
 // a
 // panic: oh no
 ```
-
 
 ---
 

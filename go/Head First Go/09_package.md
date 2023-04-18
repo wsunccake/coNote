@@ -21,7 +21,6 @@ func main() {
 }
 ```
 
-
 ```go
 // lib.go
 // package description ...
@@ -33,12 +32,10 @@ func Plus(a int, b int) int {
 }
 ```
 
-
 ```bash
 linux:~ $ go doc lib
 linux:~ $ go doc lib.Plus
 ```
-
 
 ---
 
@@ -54,7 +51,6 @@ linux:~/hello $ tree
 .
 └── main.go
 ```
-
 
 ---
 

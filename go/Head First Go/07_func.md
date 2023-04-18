@@ -36,7 +36,6 @@ fmt.Printf("type: %T\n", p)         // main.point
 fmt.Printf("pointer: %p\n", &p)     // 0xc000130010
 ```
 
-
 ---
 
 ## function
@@ -71,7 +70,6 @@ res = plusPlus(1, 2, 3)
 }
 ```
 
-
 ---
 
 ## multiple return value
@@ -90,7 +88,6 @@ func main() {
     fmt.Println(c)      // 7
 }
 ```
-
 
 ---
 
@@ -114,7 +111,6 @@ func main() {
     sum(nums...)
 }
 ```
-
 
 ---
 
@@ -140,7 +136,6 @@ func main() {
     fmt.Println(newInts())      // 1
 }
 ```
-
 
 ---
 
@@ -181,7 +176,6 @@ func main() {
 }
 ```
 
-
 ## pass function
 
 ```go
@@ -201,7 +195,6 @@ func main() {
 	fmt.Println(c)
 }
 ```
-
 
 ```go
 type plusFunc func(int, int) int

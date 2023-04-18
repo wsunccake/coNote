@@ -43,7 +43,6 @@ perim := geometry.Path{{1, 1}, {5, 1}, {5, 4}, {1, 1}}
 fmt.Println(perim.Distance())             // "12", method of geometry.Path
 ```
 
-
 ---
 
 ## method with a pointer receiver
@@ -117,7 +116,6 @@ m = nil
 fmt.Println(m.Get("item")) // ""
 m.Add("item", "3")         // panic: assignment to entry in nil map
 ```
-
 
 ---
 
@@ -229,7 +227,6 @@ func (path Path) TranslateBy(offset Point, add bool) {
 }
 ```
 
-
 ---
 
 ## example: bit vector type
@@ -306,7 +303,6 @@ fmt.Println(&x)         // "{1 9 42 144}"
 fmt.Println(x.String()) // "{1 9 42 144}"
 fmt.Println(x)          // "{[4398046511618 0 65536]}"
 ```
-
 
 ---
 

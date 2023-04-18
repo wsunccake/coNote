@@ -9,10 +9,9 @@ msg := <-messages
 fmt.Println(msg)
 ```
 
-
 ---
 
-## unbuffer 
+## unbuffer
 
 unbuffer -> non blocking
 
@@ -49,7 +48,6 @@ go func() {
 }()
 c <- true
 ```
-
 
 ---
 
@@ -167,7 +165,6 @@ func main() {
 }
 ```
 
-
 ---
 
 ## close
@@ -216,7 +213,6 @@ fmt.Println("sent all jobs")
 <-done
 ```
 
-
 ---
 
 ## range
@@ -258,7 +254,6 @@ for {
 	}
 }
 ```
-
 
 ---
 

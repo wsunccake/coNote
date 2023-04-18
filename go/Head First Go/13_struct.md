@@ -30,7 +30,6 @@ func main() {
 }
 ```
 
-
 ---
 
 ## embeded struct

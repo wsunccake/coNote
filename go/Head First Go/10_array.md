@@ -27,7 +27,6 @@ fmt.Println("2d: ", twoD)       // [[0 1 2] [1 2 3]]
 fmt.Println(twoD[0][1])         // 1
 ```
 
-
 ---
 
 ## for range
@@ -39,7 +38,6 @@ for i, e := range twoD {
 }
 fmt.Println(reflect.TypeOf(twoD))
 ```
-
 
 ---
 
@@ -61,7 +59,6 @@ diffTime := endTime.Sub(startTime)
 fmt.Println("rowMajor: ", diffTime)
 ```
 
-
 ---
 
 ## column major
@@ -81,7 +78,6 @@ endTime := time.Now()
 diffTime := endTime.Sub(startTime)
 fmt.Println("columnMajor: ", diffTime)
 ```
-
 
 ---
 
@@ -112,7 +108,6 @@ func main() {
 }
 ```
 
-
 ---
 
 ## os.Open
@@ -122,7 +117,6 @@ linux:~ $ echo 1 > tmp.txt
 linux:~ $ echo 2 >> tmp.txt
 linux:~ $ echo 3 >> tmp.txt
 ```
-
 
 ```go
 file, err := os.Open("tmp.txt")
