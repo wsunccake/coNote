@@ -17,6 +17,8 @@ build:~ # apt install build-essential
 build:~ # apt install kmod
 build:~ # apt install flex bison
 build:~ # apt install libncurses-dev libssl-dev
+
+build:~ # apt install crossbuild-essential-arm64
 ```
 
 ---
@@ -66,7 +68,7 @@ build:~ # MIRROT=http://ftp.tw.debian.org/debian
 build:~ # debootstrap \
   --arch $ARCH \
   --foreign \
-  --keyring=/usr/share/keyrings/debian-archive-keyring.gpg \
+  --keyring /usr/share/keyrings/debian-archive-keyring.gpg \
   --verbose \
   $debian_release \
   $rootfs_dir \
@@ -77,7 +79,7 @@ build:~ # cp /usr/bin/qemu-aarch64-static $rootfs_dir/usr/bin/.   # for arm64 ->
 # chroot
 build:~ # chroot $rootfs_dir /bin/bash
 target:~ # /debootstrap/debootstrap --second-stage
-target:~ # password
+target:~ # passwd
 
 # test
 build:~ # chroot $rootfs_dir /bin/bash
