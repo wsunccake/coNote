@@ -1,5 +1,15 @@
 # compile c program by makefile
 
+## content
+
+- [test.c](#testc)
+- [makefile](#makefile)
+- [run](#run)
+
+---
+
+## test.c
+
 ```c
 // test.c
 #include <stdio.h>
@@ -22,6 +32,10 @@ int main()
 }
 ```
 
+---
+
+## makefile
+
 ```makefile
 # Makefile
 cc = aarch64-linux-gnu-gcc
@@ -38,6 +52,10 @@ $(prom): $(obj)
 clean:
     rm -rf $(obj) $(prom)
 ```
+
+---
+
+## run
 
 ```bash
 build:~ # make

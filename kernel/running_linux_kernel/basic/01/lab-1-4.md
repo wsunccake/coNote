@@ -1,5 +1,17 @@
 # qemu + arm64 rootfs env
 
+## content
+
+- [os](#os)
+- [package](#package)
+- [prepare](#prepare)
+- [image / vm disk](#image--vm-disk)
+- [rootfs](#rootfs)
+- [kernel](#kernel)
+- [qemu](#qemu)
+
+---
+
 ## os
 
 ```text
