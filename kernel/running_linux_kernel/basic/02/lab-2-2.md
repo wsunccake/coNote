@@ -5,6 +5,7 @@
 - [linked_list_ex.c](#linked_list_exc)
 - [makefile](#makefile)
 - [run](#run)
+- [ref](#ref)
 
 ---
 
@@ -117,3 +118,11 @@ debian:~/ex # insmod linked_list_ex.ko
 
 debian:~/ex # rmmod linked_list_ex
 ```
+
+---
+
+## ref
+
+[OS-Linux-Kernel-exercises](https://github.com/Bovojon/OS-Linux-Kernel-exercises/tree/master)
+[Linux Linked List](https://hackmd.io/@RinHizakura/HkEuhNwGO)
+[Linux 核心原始程式碼巨集: container_of](https://hackmd.io/@sysprog/linux-macro-containerof)
