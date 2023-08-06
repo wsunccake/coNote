@@ -1,5 +1,7 @@
 # linked list example
 
+---
+
 ## content
 
 - [linked_list_ex.c](#linked_list_exc)

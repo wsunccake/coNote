@@ -1,5 +1,7 @@
 # red black tree example
 
+---
+
 ## content
 
 - [rbtree_example.c](#rbtree_examplec)

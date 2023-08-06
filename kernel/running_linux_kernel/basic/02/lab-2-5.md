@@ -1,5 +1,7 @@
 # developed environment for text mode
 
+---
+
 ## content
 
 - [os](#os)
