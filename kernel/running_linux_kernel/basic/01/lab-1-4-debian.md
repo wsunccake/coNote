@@ -108,11 +108,6 @@ build:~ # curl -OL https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.15.120.t
 build:~ # tar Jxf linux-5.15.120.tar.xz
 build:~ # cd linux-5.15.120/
 
-build:~ # curl -OL https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.10.186.tar.xz
-build:~ # tar Jxf linux-5.10.186.tar.xz
-build:~ # cd linux-5.10.186/
-
-
 build:~/linux-5.15.120 # ls arch/arm64/configs
 build:~/linux-5.15.120 # make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- defconfig
 build:~/linux-5.15.120 # make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- menuconfig
