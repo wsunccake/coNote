@@ -38,6 +38,21 @@ module_init(init_hello);
 module_exit(exit_hello);
 ```
 
+```c
+// linux/printk.h
+#define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+
+#define pr_info(fmt, ...) \
+        printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+```
+
+```c
+// linux/module.h
+#define module_init(x)  __initcall(x);
+
+#define module_exit(x)  __exitcall(x);
+```
+
 ---
 
 ## makefile
