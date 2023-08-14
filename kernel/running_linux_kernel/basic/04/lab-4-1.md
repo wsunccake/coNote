@@ -4,6 +4,9 @@
 
 ## content
 
+- [install toolchain](#install-toolchain)
+- [build kernel](#build-kernel)
+
 ---
 
 ## install toolchain

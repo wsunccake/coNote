@@ -113,16 +113,26 @@ build:~ # cd linux
 
 build:~/linux # ls arch/arm64/configs
 build:~/linux # make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- defconfig
+
+# enable debug option by menu
 build:~/linux # make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- menuconfig
 Kernel hacking  --->
   Compile-time checks and compiler options  --->
 
+# enable debug option by script
+build:~/linux # ./scripts/config -e CONFIG_DEBUG_KERNEL -e CONFIG_DEBUG_INFO
+
+# check debug option in config
 build:~/linux # grep CONFIG_DEBUG_KERNEL=y .config
 build:~/linux # grep CONFIG_DEBUG_INFO=y .config
 
+# build kernel
 build:~/linux # make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -j `nproc`
 build:~/linux # ls arch/arm64/boot/
 build:~/linux # cp arch/arm64/boot/Image $rootfs_dir/boot/.
+
+# check enable option after building
+build:~/linux # file linux/vmlinux | grep debug
 
 build:~/linux # kernel_version=$(cat include/config/kernel.release)
 build:~/linux # mkdir -p $rootfs_dir/modules/$kernel_version

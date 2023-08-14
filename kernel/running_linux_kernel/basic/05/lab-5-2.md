@@ -5,6 +5,7 @@
 ## content
 
 - [hello.c](#helloc)
+  - [function](#function)
 - [makefile](#makefile)
 - [usage](#usage)
 - [ref](#ref)
@@ -67,6 +68,20 @@ static void __exit hello_exit(void)
 
 module_init(hello_init);
 module_exit(hello_exit);
+```
+
+### function
+
+```c
+// linux/moduleparam.h
+#define module_param(name, type, perm)				\
+	module_param_named(name, name, type, perm)
+
+#define module_param_array(name, type, nump, perm)		\
+	module_param_array_named(name, name, type, nump, perm)
+
+#define MODULE_PARM_DESC(_parm, desc) \
+	__MODULE_INFO(parm, _parm, #_parm ":" desc)
 ```
 
 ---

@@ -155,6 +155,30 @@ MODULE_LICENSE("GPL v2");
 MODULE_DESCRIPTION("simpe character device");
 ```
 
+```c
+// linux/fs.h
+struct file {
+
+struct file_operations {
+
+extern int alloc_chrdev_region(dev_t *, unsigned, unsigned, const char *);
+```
+
+```c
+// linux/device/class.h
+#define class_create(owner, name)		\
+({						\
+	static struct lock_class_key __key;	\
+	__class_create(owner, name, &__key);	\
+})
+```
+
+```c
+// linux/device.h
+device_create(struct class *cls, struct device *parent, dev_t devt,
+              void *drvdata, const char *fmt, ...);
+```
+
 ---
 
 ## makefile

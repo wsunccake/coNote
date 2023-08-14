@@ -5,6 +5,7 @@
 ## content
 
 - [hello.c](#helloc)
+  - [function](#function)
 - [makefile](#makefile)
 - [usage](#usage)
 - [ref](#ref)
@@ -37,6 +38,8 @@ static void __exit exit_hello(void)
 module_init(init_hello);
 module_exit(exit_hello);
 ```
+
+### function
 
 ```c
 // linux/printk.h
