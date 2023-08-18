@@ -5,7 +5,7 @@
 ## content
 
 - [simple_char.c](#simple_charc)
-- [makefile](#makefile)
+- [Makefile](#Makefile)
 - [usage](#usage)
 
 ---
@@ -181,9 +181,9 @@ device_create(struct class *cls, struct device *parent, dev_t devt,
 
 ---
 
-## makefile
+## Makefile
 
-```makefile
+```Makefile
 PWD := $(CURDIR)
 KDIR ?= /lib/modules/$(shell uname -r)/build
 
