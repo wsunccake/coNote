@@ -2,13 +2,13 @@
 
 static int __init hello_init(void)
 {
-	printk(KERN_INFO "Hello Linux Kernel Module\n");
+	printk(KERN_INFO "init hello\n");
 	return 0;
 }
 
 static void __exit hello_exit(void)
 {
-	printk(KERN_INFO "Bye Linux Kernel Module\n");
+	printk(KERN_INFO "exit hello\n");
 }
 
 module_init(hello_init);
