@@ -9,5 +9,3 @@
 - [ldd3](https://github.com/martinezjavier/ldd3)
 - [Linux Device Driver Tutorials](https://embetronicx.com/linux-device-driver-tutorials/)
 - [Embetronicx/Tutorials](https://github.com/Embetronicx/Tutorials.git)
-- [Linux - 科 G 栈](https://www.youtube.com/playlist?list=PLEJtkJ02eJVX9I66wJD1tn07R52DxVXG0)
-- [ldd-test](https://github.com/gyxkgz/ldd-test)
