@@ -13,6 +13,7 @@
 
 #define HELLO_MAJOR 0
 #define HELLO_NR_DEVS 2
+#define DEV_NAME "hello_chr"
 
 int hello_major = HELLO_MAJOR;
 int hello_minor = 0;
@@ -45,13 +46,13 @@ ssize_t hc_read(struct file *filp, char __user *buf, size_t count, loff_t *f_pos
 }
 ssize_t hc_write(struct file *filp, const char __user *buf, size_t count, loff_t *f_pos)
 {
-	printk(KERN_INFO "write hc_dev\n");
+	printk(KERN_INFO "write %s\n", DEV_NAME);
 	return count; // if count = 0, always run
 }
 
 int hc_release(struct inode *inode, struct file *filp)
 {
-	printk(KERN_INFO "release hc_dev\n");
+	printk(KERN_INFO "release %s\n", DEV_NAME);
 	return 0;
 }
 
@@ -67,7 +68,7 @@ struct file_operations hc_fops = {
 static int __init hello_init(void)
 {
 	int ret, i;
-	printk(KERN_INFO "---init hello module---\n");
+	printk(KERN_INFO "---init %s module---\n", DEV_NAME);
 	if (hello_major)
 	{
 		devt = MKDEV(hello_major, hello_minor);
@@ -94,22 +95,22 @@ static int __init hello_init(void)
 
 	for (i = 0; i < hello_nr_devs; i++)
 	{
-		cdev_init(&hc_devp[i].cdev, &hc_fops); // init character device
+		cdev_init(&hc_devp[i].cdev, &hc_fops);
 		hc_devp[i].cdev.owner = THIS_MODULE;
-		ret = cdev_add(&hc_devp[i].cdev, MKDEV(hello_major, hello_minor + i), 1); // add character to device
+		ret = cdev_add(&hc_devp[i].cdev, MKDEV(hello_major, hello_minor + i), 1);
 		if (ret)
 		{
-			printk(KERN_WARNING "fail add hc_dev%d", i);
+			printk(KERN_WARNING "fail add %s%d", DEV_NAME, i);
 		}
 	}
 
-	printk(KERN_INFO "---end hello module---\n");
+	printk(KERN_INFO "---end %s module---\n", DEV_NAME);
 	return 0;
 
 failure_kzalloc:
 	unregister_chrdev_region(devt, hello_nr_devs);
 fail:
-	return ret; // 返回错误，模块无法正常加载
+	return ret;
 }
 
 static void __exit hello_exit(void)
@@ -119,7 +120,7 @@ static void __exit hello_exit(void)
 		cdev_del(&hc_devp[i].cdev);
 	kfree(hc_devp);
 	unregister_chrdev_region(devt, hello_nr_devs);
-	printk(KERN_INFO "---exit hello module---\n");
+	printk(KERN_INFO "---exit %s module---\n", DEV_NAME);
 }
 
 module_init(hello_init);

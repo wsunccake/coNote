@@ -4,6 +4,7 @@ PWD  := $(CURDIR)
 obj-m  := demo_chr.o
 obj-m  += demo_blk.o
 obj-m  += hello_chr.o
+obj-m  += hc_dev.o
 
 all:
 	$(MAKE) -C $(KDIR) M=$(PWD) modules
@@ -17,20 +18,6 @@ rm-mod:
 	-rmmod demo_chr
 	-rmmod demo_blk
 
-demo_chr: all
-	insmod demo_chr.ko
-	dmesg
-	-lsmod | grep demo_chr
-	-grep demo_chr /proc/devices
-	rmmod demo_chr
-
-demo_blk: all
-	insmod demo_blk.ko
-	dmesg
-	-lsmod | grep demo_blk
-	-grep demo_blk /proc/devices
-	rmmod demo_blk
-
 add-chr:
 #	awk '"hello_chr" == $2 {print $1}' /proc/devices
 #	mknod /dev/hello_chr0 c 239 0
@@ -41,7 +28,6 @@ rm-chr:
 	-@for n in $(shell seq 0 1); do \
 		rm -fv /dev/hello_chr$${n};\
 	done
-
 
 op-chr:
 	$(foreach n, $(shell seq 0 1), \
@@ -64,3 +50,15 @@ hello_chr: all
 	$(MAKE) op-chr
 	$(MAKE) rm-chr
 	rmmod hello_chr
+
+hc_dev: all
+	echo 'SUBSYSTEM=="hc_dev", MODE="0644"' > /etc/udev/rules.d/99-demo.rules
+	insmod hc_dev
+	dmesg
+	lsmod | grep hc_dev
+	ls -l /dev/hc_dev*
+	ls -l /sys/class/hc_dev
+	cat /dev/hc_dev0
+	dmesg
+	udevadm info -a -p `udevadm info -q path -n /dev/hc_dev0`
+	rmmod hc_dev
