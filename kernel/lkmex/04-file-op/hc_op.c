@@ -52,8 +52,11 @@ ssize_t hc_read(struct file *filp, char __user *buf, size_t count, loff_t *f_pos
 	struct hello_char_dev *hc_dev = filp->private_data;
 	printk(KERN_INFO "read %s %p\n", DEV_NAME, hc_dev);
 
+	// hc_dev->n - *f_pos <= 0, no space
 	if (*f_pos >= hc_dev->n)
 		goto out;
+
+	// count > hc_dev->n - *f_pos, no enough space
 	if (*f_pos + count > hc_dev->n)
 		count = hc_dev->n - *f_pos;
 
