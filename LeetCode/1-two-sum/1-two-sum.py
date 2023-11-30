@@ -37,6 +37,21 @@ class Solution:
 
 if __name__ == '__main__':
     sol = Solution()
-    assert sol.twoSum([1, 2, 3], 6) == [0, 0], 'Fail'
-    assert sol.twoSum([3, 2, 4], 6) == [1, 2], 'Fail'
+
+    q = [1, 2, 3]
+    target = 6
+    ans1 = 0
+    ans2 = 0
+    assert sol.twoSum(q, target) == [ans1, ans2], 'Fail'
+
+    q = [3, 2, 4]
+    target = 6
+    ans1 = 1
+    ans2 = 2
+    assert sol.twoSum(q, target) == [ans1, ans2], 'Fail'
+
+    q = [3, 3]
+    target = 6
+    ans1 = 0
+    ans2 = 1
     assert sol.twoSum([3, 3], 6) == [0, 1], 'Fail'
