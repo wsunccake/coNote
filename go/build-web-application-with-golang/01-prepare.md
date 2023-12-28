@@ -20,15 +20,54 @@
 
 ## install
 
+### download
+
+[All releases](https://go.dev/dl/)
+
 ### linux
 
 ```bash
+# for rhel / centos / fedora
+linux:~ # yum install golang
+linux:~ # dnf install golang
 
+# for debian / ubuntu
+linux:~ # apt install golang
+
+# for binary
+linux:~ # curl -OL https://go.dev/dl/go1.21.4.linux-amd64.tar.gz
+linux:~ # tar -xzf go1.21.4.linux-amd64.tar.gz -C /usr/local
+linux:~ # ln -s /usr/local/go/bin/go /usr/local/bin/.
 ```
 
 ### macosx
 
 ### windows
+
+### gvm
+
+```bash
+# for rhel / centos / fedora
+linux:~ # yum install bison
+linux:~ # dnf install bison
+
+# for debian / ubuntu
+linux:~ # apt install bison
+
+linux:~ $ bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+linux:~ $ source /home/$(whoami)/.gvm/scripts/gvm
+```
+
+```bash
+linux:~ $ gvm help
+linux:~ $ gvm install go1.21.1 [--binary]
+linux:~ $ gvm uninstall go1.21.1
+
+linux:~ $ gvm list
+linux:~ $ gvm use go1.21.1 [--default]
+```
+
+[gvm](https://github.com/moovweb/gvm)
 
 ---
 
