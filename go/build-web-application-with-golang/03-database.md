@@ -104,6 +104,7 @@ linux:~ # docker exec -it postgres psql -U postgres
 ### DDL – Data Definition Language
 
 ```sql
+-- sqlite
 CREATE TABLE userinfo (
     uid INTEGER PRIMARY KEY AUTOINCREMENT,
     username VARCHAR(64) NULL,
@@ -113,6 +114,30 @@ CREATE TABLE userinfo (
 
 CREATE TABLE userdetail (
     uid INT(10) NULL,
+    intro TEXT NULL,
+    profile TEXT NULL,
+    PRIMARY KEY (uid)
+);
+
+DROP TABLE userdetail;
+DROP TABLE userinfo;
+```
+
+```sql
+-- mysql
+CREATE DATABASE foo;
+USE foo;
+DROP DATABASE foo;
+
+CREATE TABLE userinfo (
+    uid INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(64) NULL,
+    department VARCHAR(64) NULL,
+    created DATE DEFAULT CURRENT_DATE
+);
+
+CREATE TABLE userdetail (
+    uid INT(10) NOT NULL,
     intro TEXT NULL,
     profile TEXT NULL,
     PRIMARY KEY (uid)
@@ -140,7 +165,7 @@ DELETE FROM userinfo WHERE uid = 4;
 
 ## code
 
-### sqlite
+### sqlite example
 
 ```go
 package main
@@ -292,4 +317,454 @@ func main() {
 	fmt.Println("--- after delete ---")
 	queryRow(db)
 }
+```
+
+```bash
+#!/bin/bash
+
+test -f foo.db && rm -rf foo.db
+go run .
+
+sqlite3 foo.db << EOF
+.table
+.schema
+SELECT * FROM userinfo
+EOF
+```
+
+### mysql example
+
+```go
+package main
+
+import (
+	"database/sql"
+	"fmt"
+	"time"
+
+	_ "github.com/go-sql-driver/mysql"
+)
+
+const (
+	UserName     string = "root"
+	Password     string = "password"
+	Addr         string = "127.0.0.1"
+	Port         int    = 3306
+	Database     string = "foo"
+	MaxLifetime  int    = 10
+	MaxOpenConns int    = 10
+	MaxIdleConns int    = 10
+)
+
+func checkErr(err error) {
+	if err != nil {
+		panic(err)
+	}
+}
+
+func createTable(db *sql.DB) {
+	query1 := `CREATE TABLE IF NOT EXISTS userinfo(
+		uid INT PRIMARY KEY AUTO_INCREMENT,
+		username VARCHAR(64) NULL,
+		department VARCHAR(64) NULL,
+		created DATE DEFAULT (CURRENT_DATE)
+	);`
+
+	query2 := `CREATE TABLE IF NOT EXISTS userdetail (
+		uid INT(10),
+		intro TEXT NULL,
+		profile TEXT NULL,
+		PRIMARY KEY (uid)
+	);`
+
+	if _, err := db.Exec(query1); err != nil {
+		panic(err)
+	}
+
+	if _, err := db.Exec(query2); err != nil {
+		panic(err)
+	}
+
+}
+
+func insertRow(db *sql.DB, username string, department string, created string) int64 {
+	var stmt *sql.Stmt
+	var err error
+	var res sql.Result
+	var id int64
+
+	query := "INSERT INTO userinfo(username, department, created) values(?, ?, ?)"
+	stmt, err = db.Prepare(query)
+	checkErr(err)
+
+	if created == "" {
+		created = time.Now().Format("2006-01-02")
+	}
+
+	res, err = stmt.Exec(username, department, created)
+	checkErr(err)
+
+	id, err = res.LastInsertId()
+	checkErr(err)
+
+	return id
+}
+
+func updateRow(db *sql.DB, id int64) {
+	var stmt *sql.Stmt
+	var err error
+	var res sql.Result
+
+	query := "UPDATE userinfo SET username = ? WHERE uid = ?"
+
+	stmt, err = db.Prepare(query)
+	checkErr(err)
+
+	res, err = stmt.Exec("Astaxie", id)
+	checkErr(err)
+
+	affect, err := res.RowsAffected()
+	checkErr(err)
+
+	fmt.Println(affect)
+}
+
+func queryRow(db *sql.DB) {
+	var rows *sql.Rows
+	var err error
+	query := "SELECT * FROM userinfo"
+
+	rows, err = db.Query(query)
+	checkErr(err)
+
+	var uid int
+	var username string
+	var department string
+	var created time.Time
+
+	for rows.Next() {
+		err = rows.Scan(&uid, &username, &department, &created)
+		checkErr(err)
+		fmt.Printf("uid: %d, username: %s, department: %s, created: %v\n", uid, username, department, created)
+	}
+}
+
+func deleteRow(db *sql.DB, id int64) {
+	var stmt *sql.Stmt
+	var err error
+	var res sql.Result
+	query := "DELETE FROM userinfo WHERE uid = ?"
+
+	stmt, err = db.Prepare(query)
+	checkErr(err)
+
+	res, err = stmt.Exec(id)
+	checkErr(err)
+
+	_, err = res.RowsAffected()
+	checkErr(err)
+}
+func main() {
+	var conn string
+	var db *sql.DB
+	var err error
+
+	conn = fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&readTimeout=%dms&writeTimeout=%dms&timeout=%dms", UserName, Password, Addr, Port, Database, 1000, 1000, 1000)
+
+	db, err = sql.Open("mysql", conn)
+	checkErr(err)
+	defer db.Close()
+	db.SetConnMaxLifetime(time.Duration(MaxLifetime) * time.Second)
+	db.SetMaxOpenConns(MaxOpenConns)
+	db.SetMaxIdleConns(MaxIdleConns)
+
+	// create table
+	createTable(db)
+
+	// insert
+	id := insertRow(db, "Paul", "IT", "2024-01-01")
+	insertRow(db, "Allen", "Account", "")
+	insertRow(db, "Teddy", "HR", time.Now().Format("2006-01-02"))
+	// query
+	fmt.Println("--- after insert ---")
+	queryRow(db)
+
+	// update
+	updateRow(db, id)
+
+	// query
+	fmt.Println("--- after update ---")
+	queryRow(db)
+
+	// delete
+	deleteRow(db, id)
+
+	// query
+	fmt.Println("--- after delete ---")
+	queryRow(db)
+}
+```
+
+```bash
+#!/bin/bash
+
+username=root
+password=password
+db=foo
+
+# create database
+create_database() {
+  docker exec -i mysql mysql -u$username -p$password << EOF
+CREATE DATABASE $db;
+EOF
+}
+
+# show table
+show_table() {
+  docker exec -i mysql mysql -u$username -p$password -D$db << EOF
+SELECT * FROM userinfo;
+EOF
+}
+
+# drop database
+drop_database() {
+  docker exec -i mysql mysql -u$username -p$password << EOF
+DROP DATABASE $db;
+EOF
+}
+
+###
+### main
+###
+
+create_database
+
+go run .
+show_table
+
+drop_database
+```
+
+### postgre example
+
+```go
+package main
+
+import (
+	"database/sql"
+	"fmt"
+	"time"
+
+	_ "github.com/lib/pq"
+)
+
+const (
+	UserName     string = "postgres"
+	Password     string = "password"
+	Addr         string = "127.0.0.1"
+	Port         int    = 5432
+	Database     string = "foo"
+	MaxLifetime  int    = 10
+	MaxOpenConns int    = 10
+	MaxIdleConns int    = 10
+)
+
+func checkErr(err error) {
+	if err != nil {
+		panic(err)
+	}
+}
+
+func createTable(db *sql.DB) {
+	query1 := `CREATE TABLE userinfo
+	(
+		uid serial NOT NULL,
+		username character varying(100) NOT NULL,
+		department character varying(500) NOT NULL,
+		Created date,
+		CONSTRAINT userinfo_pkey PRIMARY KEY (uid)
+	)
+	WITH (OIDS=FALSE);`
+
+	query2 := `CREATE TABLE userdetail
+	(
+		uid integer,
+		intro character varying(100),
+		profile character varying(100)
+	)
+	WITH(OIDS=FALSE);`
+
+	if _, err := db.Exec(query1); err != nil {
+		panic(err)
+	}
+
+	if _, err := db.Exec(query2); err != nil {
+		panic(err)
+	}
+
+}
+
+func insertRow(db *sql.DB, username string, department string, created string) int64 {
+	var stmt *sql.Stmt
+	var err error
+	// var res sql.Result
+	var id int64
+
+	query := "INSERT INTO userinfo(username, department, created) VALUES($1, $2, $3) RETURNING uid"
+	stmt, err = db.Prepare(query)
+	checkErr(err)
+
+	if created == "" {
+		created = time.Now().Format("2006-01-02")
+	}
+
+	_, err = stmt.Exec(username, department, created)
+	checkErr(err)
+
+	// var id int64
+	err = db.QueryRow("INSERT INTO userinfo(username,departname,created) VALUES($1,$2,$3) returning uid;", username, department, created).Scan(&id)
+	checkErr(err)
+
+	return id
+}
+
+func updateRow(db *sql.DB, id int64) {
+	var stmt *sql.Stmt
+	var err error
+	var res sql.Result
+
+	query := "UPDATE userinfo SET username = $1 WHERE uid = $2"
+
+	stmt, err = db.Prepare(query)
+	checkErr(err)
+
+	res, err = stmt.Exec("Astaxie", id)
+	checkErr(err)
+
+	affect, err := res.RowsAffected()
+	checkErr(err)
+
+	fmt.Println(affect)
+}
+
+func queryRow(db *sql.DB) {
+	var rows *sql.Rows
+	var err error
+	query := "SELECT * FROM userinfo"
+
+	rows, err = db.Query(query)
+	checkErr(err)
+
+	var uid int
+	var username string
+	var department string
+	var created time.Time
+
+	for rows.Next() {
+		err = rows.Scan(&uid, &username, &department, &created)
+		checkErr(err)
+		fmt.Printf("uid: %d, username: %s, department: %s, created: %v\n", uid, username, department, created)
+	}
+}
+
+func deleteRow(db *sql.DB, id int64) {
+	var stmt *sql.Stmt
+	var err error
+	var res sql.Result
+	query := "DELETE FROM userinfo WHERE uid = $1"
+
+	stmt, err = db.Prepare(query)
+	checkErr(err)
+
+	res, err = stmt.Exec(id)
+	checkErr(err)
+
+	_, err = res.RowsAffected()
+	checkErr(err)
+}
+
+func main() {
+	var conn string
+	var db *sql.DB
+	var err error
+
+	conn = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", Addr, Port, UserName, Password, Database)
+
+	db, err = sql.Open("postgres", conn)
+	checkErr(err)
+	defer db.Close()
+	db.SetConnMaxLifetime(time.Duration(MaxLifetime) * time.Second)
+	db.SetMaxOpenConns(MaxOpenConns)
+	db.SetMaxIdleConns(MaxIdleConns)
+
+	// create table
+	createTable(db)
+
+	// insert
+	id := insertRow(db, "Paul", "IT", "2024-01-01")
+	insertRow(db, "Allen", "Account", "")
+	insertRow(db, "Teddy", "HR", time.Now().Format("2006-01-02"))
+	// query
+	fmt.Println("--- after insert ---")
+	queryRow(db)
+
+	// update
+	updateRow(db, id)
+
+	// query
+	fmt.Println("--- after update ---")
+	queryRow(db)
+
+	// delete
+	deleteRow(db, id)
+
+	// query
+	fmt.Println("--- after delete ---")
+	queryRow(db)
+}
+```
+
+```bash
+#!/bin/bash
+
+username=postgres
+db=foo
+
+create_database() {
+    docker exec -i postgres psql -U $username << EOF
+CREATE DATABASE $db;
+EOF
+}
+
+show_table() {
+    docker exec -i postgres psql -U $username -d $db << EOF
+SELECT * FROM userinfo;
+EOF
+}
+
+drop_database() {
+    docker exec -i postgres psql -U $username << EOF
+DROP DATABASE $db;
+EOF
+}
+
+# show table
+show_table() {
+  docker exec -i postgres psql -U $username -d $db << EOF
+\d
+\d userinfo
+SELECT * FROM userinfo;
+EOF
+}
+
+###
+### main
+###
+
+create_database
+
+go run .
+
+show_table
+drop_database
 ```
