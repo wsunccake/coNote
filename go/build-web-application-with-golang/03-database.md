@@ -13,6 +13,10 @@
   - [DDL – Data Definition Language](#ddl-–-data-definition-language)
   - [DML – Data Manipulation Language](#dml-–-data-manipulation-language)
 - [code](#code)
+  - [sqlite example](#sqlite-example)
+  - [mysql example](#mysql-example)
+  - [postgre example](#postgre-example)
+- [orm](#orm)
 
 ---
 
@@ -105,6 +109,10 @@ linux:~ # docker exec -it postgres psql -U postgres
 
 ```sql
 -- sqlite
+.databases
+
+.tables
+
 CREATE TABLE userinfo (
     uid INTEGER PRIMARY KEY AUTOINCREMENT,
     username VARCHAR(64) NULL,
@@ -125,15 +133,45 @@ DROP TABLE userinfo;
 
 ```sql
 -- mysql
+SHOW DATABASES;
 CREATE DATABASE foo;
 USE foo;
 DROP DATABASE foo;
+
+SHOW TABLES;
 
 CREATE TABLE userinfo (
     uid INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(64) NULL,
     department VARCHAR(64) NULL,
-    created DATE DEFAULT CURRENT_DATE
+    created DATE DEFAULT (CURRENT_DATE)
+);
+
+CREATE TABLE userdetail (
+    uid INT(10) NOT NULL,
+    intro TEXT NULL,
+    profile TEXT NULL,
+    PRIMARY KEY (uid)
+);
+
+DROP TABLE userdetail;
+DROP TABLE userinfo;
+```
+
+```sql
+-- postgre
+\l
+CREATE DATABASE foo;
+\c foo
+DROP DATABASE foo;
+
+\d
+
+CREATE TABLE userinfo (
+    uid SERIAL PRIMARY KEY,
+    username VARCHAR(64) NULL,
+    department VARCHAR(64) NULL,
+    created DATE DEFAULT (CURRENT_DATE)
 );
 
 CREATE TABLE userdetail (
@@ -283,6 +321,7 @@ func deleteRow(db *sql.DB, id int64) {
 	_, err = res.RowsAffected()
 	checkErr(err)
 }
+
 func main() {
 	var db *sql.DB
 	var err error
@@ -323,6 +362,16 @@ func main() {
 #!/bin/bash
 
 test -f foo.db && rm -rf foo.db
+
+sqlite3 foo.db << EOF
+CREATE TABLE userinfo (
+    uid INTEGER PRIMARY KEY AUTOINCREMENT,
+    username VARCHAR(64) NULL,
+    department VARCHAR(64) NULL,
+    created DATE NULL
+);
+EOF
+
 go run .
 
 sqlite3 foo.db << EOF
@@ -768,3 +817,270 @@ go run .
 show_table
 drop_database
 ```
+
+---
+
+## gorm
+
+### sqlite gorm
+
+```go
+package main
+
+import (
+	"database/sql"
+	"fmt"
+	"time"
+
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
+)
+
+func checkErr(err error) {
+	if err != nil {
+		panic(err)
+	}
+}
+
+type Userinfo struct {
+	Uid        uint      `gorm:"column:uid;primaryKey;autoIncrement"`
+	Username   string    `gorm:"column:username"`
+	Department string    `gorm:"column:department"`
+	Created    time.Time `gorm:"column:created"`
+}
+
+type Tabler interface {
+	TableName() string
+}
+
+func (Userinfo) TableName() string {
+	return "userinfo"
+}
+
+func main() {
+	var conn string
+	var db *gorm.DB
+	var err error
+	var sqlDb *sql.DB
+
+	conn = "foo.db"
+	db, err = gorm.Open(sqlite.Open(conn), &gorm.Config{})
+	checkErr(err)
+
+	sqlDb, err = db.DB()
+	checkErr(err)
+	defer sqlDb.Close()
+
+	// create
+	db.Create(&Userinfo{Username: "jinzhu", Department: "Sales", Created: time.Now()})
+
+	// read
+	var userinfo1, userinfo2, userinfo3 Userinfo
+	result := db.First(&userinfo1, 1)
+	checkErr(result.Error)
+	fmt.Printf("userinfo: %+v\n", userinfo1)
+	db.First(&userinfo2, "uid = ?", 3)
+	fmt.Printf("userinfo: %+v\n", userinfo2)
+	db.Last(&userinfo3)
+	fmt.Printf("userinfo: %+v\n", userinfo3)
+	var userinfos []Userinfo
+	db.Find(&userinfos)
+	fmt.Printf("userinfos: %+v\n", userinfos)
+	for _, v := range userinfos {
+		fmt.Printf("userinfos: %+v\n", v)
+	}
+
+	// update
+	db.Model(&userinfo3).Update("department", "Marketing")
+	db.Model(&userinfo3).Updates(Userinfo{Username: "George", Department: "Finance"})
+
+	// delete
+	db.Delete(&userinfo3)
+}
+```
+
+### mysql gorm
+
+```go
+package main
+
+import (
+	"database/sql"
+	"fmt"
+	"time"
+
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+)
+
+const (
+	UserName     string = "root"
+	Password     string = "password"
+	Addr         string = "127.0.0.1"
+	Port         int    = 3306
+	Database     string = "foo"
+	MaxLifetime  int    = 10
+	MaxOpenConns int    = 10
+	MaxIdleConns int    = 10
+)
+
+func checkErr(err error) {
+	if err != nil {
+		panic(err)
+	}
+}
+
+type Userinfo struct {
+	Uid        uint      `gorm:"column:uid;primaryKey;autoIncrement"`
+	Username   string    `gorm:"column:username"`
+	Department string    `gorm:"column:department"`
+	Created    time.Time `gorm:"column:created"`
+}
+
+type Tabler interface {
+	TableName() string
+}
+
+func (Userinfo) TableName() string {
+	return "userinfo"
+}
+
+func main() {
+	var conn string
+	var db *gorm.DB
+	var err error
+	var sqlDb *sql.DB
+
+	conn = fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&readTimeout=%dms&writeTimeout=%dms&timeout=%dms", UserName, Password, Addr, Port, Database, 1000, 1000, 1000)
+	db, err = gorm.Open(mysql.Open(conn), &gorm.Config{})
+	checkErr(err)
+
+	sqlDb, err = db.DB()
+	checkErr(err)
+	defer sqlDb.Close()
+	sqlDb.SetConnMaxLifetime(time.Duration(MaxLifetime) * time.Second)
+	sqlDb.SetMaxOpenConns(MaxOpenConns)
+	sqlDb.SetMaxIdleConns(MaxIdleConns)
+
+	// create
+	db.Create(&Userinfo{Username: "jinzhu", Department: "Sales", Created: time.Now()})
+
+	// read
+	var userinfo1, userinfo2, userinfo3 Userinfo
+	result := db.First(&userinfo1, 1)
+	checkErr(result.Error)
+	fmt.Printf("userinfo: %+v\n", userinfo1)
+	db.First(&userinfo2, "uid = ?", 3)
+	fmt.Printf("userinfo: %+v\n", userinfo2)
+	db.Last(&userinfo3)
+	fmt.Printf("userinfo: %+v\n", userinfo3)
+	var userinfos []Userinfo
+	db.Find(&userinfos)
+	fmt.Printf("userinfos: %+v\n", userinfos)
+	for _, v := range userinfos {
+		fmt.Printf("userinfos: %+v\n", v)
+	}
+
+	// update
+	db.Model(&userinfo3).Update("department", "Marketing")
+	db.Model(&userinfo3).Updates(Userinfo{Username: "George", Department: "Finance"})
+
+	// delete
+	db.Delete(&userinfo3)
+}
+```
+
+### postgre gorm
+
+```go
+package main
+
+import (
+	"database/sql"
+	"fmt"
+	"time"
+
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+)
+
+const (
+	UserName     string = "postgres"
+	Password     string = "password"
+	Addr         string = "127.0.0.1"
+	Port         int    = 5432
+	Database     string = "foo"
+	MaxLifetime  int    = 10
+	MaxOpenConns int    = 10
+	MaxIdleConns int    = 10
+)
+
+func checkErr(err error) {
+	if err != nil {
+		panic(err)
+	}
+}
+
+type Userinfo struct {
+	Uid        uint      `gorm:"column:uid;primaryKey;autoIncrement"`
+	Username   string    `gorm:"column:username"`
+	Department string    `gorm:"column:department"`
+	Created    time.Time `gorm:"column:created"`
+}
+
+type Tabler interface {
+	TableName() string
+}
+
+func (Userinfo) TableName() string {
+	return "userinfo"
+}
+
+func main() {
+	var conn string
+	var db *gorm.DB
+	var err error
+	var sqlDb *sql.DB
+
+	conn = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", Addr, Port, UserName, Password, Database)
+	db, err = gorm.Open(postgres.Open(conn), &gorm.Config{})
+	checkErr(err)
+
+	sqlDb, err = db.DB()
+	checkErr(err)
+	defer sqlDb.Close()
+	sqlDb.SetConnMaxLifetime(time.Duration(MaxLifetime) * time.Second)
+	sqlDb.SetMaxOpenConns(MaxOpenConns)
+	sqlDb.SetMaxIdleConns(MaxIdleConns)
+
+	// create
+	db.Create(&Userinfo{Username: "jinzhu", Department: "Sales", Created: time.Now()})
+
+	// read
+	var userinfo1, userinfo2, userinfo3 Userinfo
+	result := db.First(&userinfo1, 1)
+	checkErr(result.Error)
+	fmt.Printf("userinfo: %+v\n", userinfo1)
+	db.First(&userinfo2, "uid = ?", 3)
+	fmt.Printf("userinfo: %+v\n", userinfo2)
+	db.Last(&userinfo3)
+	fmt.Printf("userinfo: %+v\n", userinfo3)
+	var userinfos []Userinfo
+	db.Find(&userinfos)
+	fmt.Printf("userinfos: %+v\n", userinfos)
+	for _, v := range userinfos {
+		fmt.Printf("userinfos: %+v\n", v)
+	}
+
+	// update
+	db.Model(&userinfo3).Update("department", "Marketing")
+	db.Model(&userinfo3).Updates(Userinfo{Username: "George", Department: "Finance"})
+
+	// delete
+	db.Delete(&userinfo3)
+}
+```
+
+---
+
+## beego orm
