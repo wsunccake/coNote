@@ -15,8 +15,17 @@
 - [code](#code)
   - [sqlite example](#sqlite-example)
   - [mysql example](#mysql-example)
-  - [postgre example](#postgre-example)
-- [orm](#orm)
+  - [postgresql example](#postgresql-example)
+- [gorm](#gorm)
+  - [gorm - sqlite](#gorm---sqlite)
+  - [gorm - mysql](#gorm---mysql)
+  - [gorm - postgresql](#gorm---postgresql)
+- [beego orm](#beego-orm)
+  - [beego - sqlite](#beego---sqlite)
+  - [beego - mysql](#beego---mysql)
+  - [beego - postgresql](#beego---postgresql)
+- [nosql](#nosql)
+  - [go-redis - redis](#go-redis---redis)
 
 ---
 
@@ -90,6 +99,7 @@ postgres=# SELECT current_database();        -- show current database
 
 - [mysql](https://hub.docker.com/_/mysql)
 - [postgres](https://hub.docker.com/_/postgres)
+- [redis](https://hub.docker.com/_/redis)
 
 ```bash
 # mysql
@@ -99,6 +109,10 @@ linux:~ # docker exec -it mysql mysql -u root -p
 # postgres
 linux:~ # docker run -d -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password -p 5432:5432 --name postgres postgres
 linux:~ # docker exec -it postgres psql -U postgres
+
+# redis
+linux:~ # docker run -d -p 6379:6379 --name redis redis
+linux:~ # docker exec -it redis redis-cli
 ```
 
 ---
@@ -323,10 +337,12 @@ func deleteRow(db *sql.DB, id int64) {
 }
 
 func main() {
+	var conn string
 	var db *sql.DB
 	var err error
 
-	db, err = sql.Open("sqlite3", "./foo.db")
+	conn = "foo.db"
+	db, err = sql.Open("sqlite3", conn)
 	checkErr(err)
 	defer db.Close()
 
@@ -594,7 +610,7 @@ show_table
 drop_database
 ```
 
-### postgre example
+### postgresql example
 
 ```go
 package main
@@ -822,7 +838,7 @@ drop_database
 
 ## gorm
 
-### sqlite gorm
+### gorm - sqlite
 
 ```go
 package main
@@ -899,7 +915,7 @@ func main() {
 }
 ```
 
-### mysql gorm
+### gorm - mysql
 
 ```go
 package main
@@ -990,7 +1006,7 @@ func main() {
 }
 ```
 
-### postgre gorm
+### gorm - postgresql
 
 ```go
 package main
@@ -1083,4 +1099,272 @@ func main() {
 
 ---
 
-## beego orm
+## beego
+
+### beego - sqlite
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+
+	"github.com/astaxie/beego/orm"
+	_ "github.com/mattn/go-sqlite3"
+)
+
+type Userinfo struct {
+	Uid        uint      `orm:"pk;auto;column(uid)"`
+	Username   string    `orm:"null;size(64);column(username)"`
+	Department string    `orm:"null;size(64);column(department)"`
+	Created    time.Time `orm:"column(created)"`
+}
+
+func init() {
+	orm.RegisterDriver("sqlite", orm.DR_Sqlite)
+	conn := "foo.db"
+
+	orm.RegisterDataBase("default", "sqlite3", conn, MaxOpenConns)
+	orm.RegisterModel(new(Userinfo))
+	//orm.RegisterModel(new(Userinfo), new(Profile), new(Post))
+
+	orm.RunSyncdb("default", false, true)
+}
+
+func main() {
+	o := orm.NewOrm()
+
+	userinfo := Userinfo{
+		Username:   "slene",
+		Department: "RD",
+		Created:    time.Now(),
+	}
+
+	// insert
+	id, err := o.Insert(&userinfo)
+	fmt.Printf("ID: %d, ERR: %v\n", id, err)
+
+	// update
+	userinfo.Username = "astaxie"
+	num, err := o.Update(&userinfo)
+	fmt.Printf("NUM: %d, ERR: %v\n", num, err)
+
+	// read
+	u := Userinfo{Uid: userinfo.Uid}
+	err = o.Read(&u)
+	fmt.Printf("ERR: %v\n", err)
+
+	// delete
+	num, err = o.Delete(&u)
+	fmt.Printf("NUM: %d, ERR: %v\n", num, err)
+}
+```
+
+### beego - mysql
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+
+	"github.com/astaxie/beego/orm"
+	_ "github.com/go-sql-driver/mysql"
+)
+
+type Userinfo struct {
+	Uid        uint      `orm:"pk;auto;column(uid)"`
+	Username   string    `orm:"null;size(64);column(username)"`
+	Department string    `orm:"null;size(64);column(department)"`
+	Created    time.Time `orm:"column(created)"`
+}
+
+const (
+	UserName     string = "root"
+	Password     string = "password"
+	Addr         string = "127.0.0.1"
+	Port         int    = 3306
+	Database     string = "foo"
+	MaxLifetime  int    = 10
+	MaxOpenConns int    = 10
+	MaxIdleConns int    = 10
+)
+
+func init() {
+	orm.RegisterDriver("mysql", orm.DR_MySQL)
+	conn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&readTimeout=%dms&writeTimeout=%dms&timeout=%dms", UserName, Password, Addr, Port, Database, 1000, 1000, 1000)
+
+	orm.RegisterDataBase("default", "mysql", conn, MaxOpenConns)
+	orm.RegisterModel(new(Userinfo))
+	//orm.RegisterModel(new(Userinfo), new(Profile), new(Post))
+
+	orm.RunSyncdb("default", false, true)
+}
+
+func main() {
+	o := orm.NewOrm()
+
+	userinfo := Userinfo{
+		Username:   "slene",
+		Department: "RD",
+		Created:    time.Now(),
+	}
+
+	// insert
+	id, err := o.Insert(&userinfo)
+	fmt.Printf("ID: %d, ERR: %v\n", id, err)
+
+	// update
+	userinfo.Username = "astaxie"
+	num, err := o.Update(&userinfo)
+	fmt.Printf("NUM: %d, ERR: %v\n", num, err)
+
+	// read
+	u := Userinfo{Uid: userinfo.Uid}
+	err = o.Read(&u)
+	fmt.Printf("ERR: %v\n", err)
+
+	// delete
+	num, err = o.Delete(&u)
+	fmt.Printf("NUM: %d, ERR: %v\n", num, err)
+}
+```
+
+### beego - postgresql
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+
+	"github.com/astaxie/beego/orm"
+	// _ "github.com/go-sql-driver/mysql"
+	// _ "github.com/mattn/go-sqlite3"
+	_ "github.com/lib/pq"
+)
+
+type Userinfo struct {
+	Uid        uint      `orm:"pk;auto;column(uid)"`
+	Username   string    `orm:"null;size(64);column(username)"`
+	Department string    `orm:"null;size(64);column(department)"`
+	Created    time.Time `orm:"column(created)"`
+}
+
+const (
+	UserName     string = "postgres"
+	Password     string = "password"
+	Addr         string = "127.0.0.1"
+	Port         int    = 5432
+	Database     string = "foo"
+	MaxLifetime  int    = 10
+	MaxOpenConns int    = 10
+	MaxIdleConns int    = 10
+)
+
+func init() {
+	orm.RegisterDriver("postgres", orm.DR_Postgres)
+
+	conn = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", Addr, Port, UserName, Password, Database)	orm.RegisterDataBase("default", "postgres", "user=postgres password=zxxx dbname=test host=127.0.0.1 port=5432 sslmode=disable")
+	orm.RegisterDataBase("default", "postgres", conn, MaxOpenConns)
+	orm.RegisterModel(new(Userinfo))
+	//orm.RegisterModel(new(Userinfo), new(Profile), new(Post))
+
+	orm.RunSyncdb("default", false, true)
+}
+
+func main() {
+	o := orm.NewOrm()
+
+	userinfo := Userinfo{
+		Username:   "slene",
+		Department: "RD",
+		Created:    time.Now(),
+	}
+
+	// insert
+	id, err := o.Insert(&userinfo)
+	fmt.Printf("ID: %d, ERR: %v\n", id, err)
+
+	// update
+	userinfo.Username = "astaxie"
+	num, err := o.Update(&userinfo)
+	fmt.Printf("NUM: %d, ERR: %v\n", num, err)
+
+	// read
+	u := Userinfo{Uid: userinfo.Uid}
+	err = o.Read(&u)
+	fmt.Printf("ERR: %v\n", err)
+
+	// delete
+	num, err = o.Delete(&u)
+	fmt.Printf("NUM: %d, ERR: %v\n", num, err)
+}
+```
+
+---
+
+## nosql
+
+### go-redis - redis
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/redis/go-redis/v9"
+)
+
+const (
+	Host     = "127.0.0.1"
+	Port     = 6379
+	Password = ""
+	Db       = 0
+)
+
+func main() {
+	Addr := fmt.Sprintf("%s:%d", Host, Port)
+	client := redis.NewClient(&redis.Options{
+		Addr:     Addr,
+		Password: Password,
+		DB:       Db,
+	})
+
+	ctx := context.Background()
+
+	err := client.Set(ctx, "foo", "bar", 0).Err()
+	if err != nil {
+		panic(err)
+	}
+
+	val, err := client.Get(ctx, "foo").Result()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("foo", val)
+}
+```
+
+```bash
+#!/bin/bash
+set_data() {
+  docker exec -i redis redis-cli << EOF
+SET foo ABC
+SET bar XYZ
+GET bar
+EOF
+}
+
+set_data
+
+go build .
+./demo
+```
+
+### mongoDB
