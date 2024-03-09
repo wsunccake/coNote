@@ -341,6 +341,26 @@ func main() {
 
 ### mysql
 
+```sql
+CREATE DATABASE foo;
+USE foo;
+SHOW TABLES;
+
+CREATE TABLE userinfo (
+    uid INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(64) NULL,
+    department VARCHAR(64) NULL,
+    created DATE DEFAULT (CURRENT_DATE)
+);
+
+CREATE TABLE userdetail (
+    uid INT(10) NOT NULL,
+    intro TEXT NULL,
+    profile TEXT NULL,
+    PRIMARY KEY (uid)
+);
+```
+
 ```go
 package main
 
