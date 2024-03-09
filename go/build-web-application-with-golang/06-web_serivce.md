@@ -437,12 +437,22 @@ func main() {
 }
 ```
 
-### command
+### netcat
 
 ```bash
 # send data to socket
-linux:~ # nc -U  /tmp/socket
+linux:~ # nc -U /tmp/socket
 ```
+
+```bash
+# receive / server
+server:~ # nc -l -p 1234
+
+# send / client
+client:~ # nc <server ip> 1234
+```
+
+### socat
 
 ---
 
