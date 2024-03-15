@@ -454,6 +454,14 @@ client:~ # nc <server ip> 1234
 
 ### socat
 
+```bash
+# read local file
+linux:~ $ socat - /etc/sysctl.conf
+
+# write local file
+linux:~ $ echo "Hello" | socat - /tmp/hello.txt
+```
+
 ---
 
 ## websocket

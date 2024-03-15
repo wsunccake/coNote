@@ -523,6 +523,7 @@ func deleteRow(db *sql.DB, id int64) {
 	_, err = res.RowsAffected()
 	checkErr(err)
 }
+
 func main() {
 	var conn string
 	var db *sql.DB
