@@ -4,4 +4,4 @@
 
 [gopl](https://github.com/dreamrover/gopl-pdf)
 
-[Go語言聖經](https://www.bookstack.cn/read/gopl-zh-tw/README.md)
+[Go 語言聖經](https://www.bookstack.cn/read/gopl-zh-tw/README.md)

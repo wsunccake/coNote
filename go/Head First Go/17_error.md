@@ -21,7 +21,6 @@ func main() {
 }
 ```
 
-
 ---
 
 ## fmt.Errorf
@@ -45,13 +44,12 @@ func main() {
 }
 ```
 
-
 ---
 
 ## type error
 
 ```go
-type error interface {  
+type error interface {
     Error() string
 }
 ```

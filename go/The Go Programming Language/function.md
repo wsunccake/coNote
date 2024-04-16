@@ -27,7 +27,6 @@ fmt.Printf("%T\n", first) // "func(int, int) int"
 fmt.Printf("%T\n", zero)  // "func(int, int) int"
 ```
 
-
 ---
 
 ## recursion
@@ -68,7 +67,6 @@ func outline(stack []string, n *html.Node) {
     }
 }
 ```
-
 
 ---
 
@@ -126,7 +124,6 @@ func CountWordsAndImages(url string) (words, images int, err error) {
 }
 ```
 
-
 ---
 
 ## error
@@ -139,7 +136,6 @@ if !ok {
 
 // fmt.Println(err) or fmt.Printf("%v", err).
 ```
-
 
 ### error-handling strategy
 
@@ -170,7 +166,6 @@ if err := WaitForServer(url); err != nil {
 }
 ```
 
-
 ### end of file (eof)
 
 ```go
@@ -191,7 +186,6 @@ in := bufio.NewReader(os.Stdin)
     }
 }
 ```
-
 
 ---
 
@@ -254,7 +248,6 @@ func endElement(n *html.Node) {
 forEachNode(doc, startElement, endElement)
 ```
 
-
 ---
 
 ## anonymous function
@@ -308,7 +301,6 @@ func main() {
 }
 ```
 
-
 ### caveat: capturing iteration variable
 
 ```go
@@ -335,7 +327,6 @@ for _, rmdir := range rmdirs {
     rmdir() // clean up
 }
 ```
-
 
 ---
 
@@ -374,7 +365,6 @@ linenum, name := 12, "count"
 errorf(linenum, "undefined: %s", name) // "Line 12: undefined: count"
 ```
 
-
 ---
 
 ## deferred function call
@@ -403,7 +393,7 @@ func title(url string) error {
         if n.Type == html.ElementNode && n.Data == "title" &&
             n.FirstChild != nil {
             fmt.Println(n.FirstChild.Data)
-        } 
+        }
     }
 
     forEachNode(doc, visitNode, nil)
@@ -440,7 +430,7 @@ func ReadFile(filename string) ([]byte, error) {
         return nil, err
     }
     defer f.Close()
-    return ReadAll(f)    
+    return ReadAll(f)
 }
 ```
 
@@ -492,11 +482,9 @@ func triple(x int) (result int) {
 fmt.Println(triple(4)) // "12"
 ```
 
-
 ---
 
 ## panic
-
 
 ---
 

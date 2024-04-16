@@ -32,7 +32,6 @@ linux:~ $ curl -ksL 'http://localhost:8080/hello?id=1'
 linux:~ $ curl -ksL 'http://localhost:8080/hello?id=1&foo=bar'
 ```
 
-
 ---
 
 ## client
@@ -55,7 +54,6 @@ func main() {
 	}
 }
 ```
-
 
 ---
 

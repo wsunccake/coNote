@@ -27,7 +27,6 @@ func main() {
 }
 ```
 
-
 ---
 
 ## getter and setter

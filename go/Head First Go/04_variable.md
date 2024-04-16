@@ -28,7 +28,6 @@ var (
 )
 ```
 
-
 ---
 
 ## short declaration
@@ -37,7 +36,6 @@ var (
 foo := "go"
 bar := 100
 ```
-
 
 ---
 
@@ -59,7 +57,6 @@ const (
 )
 ```
 
-
 ---
 
 ## data type
@@ -73,7 +70,7 @@ var s string
 fmt.Printf("default %T: %t\n", b, b)    // bool: false
 fmt.Printf("default %T: %d\n", i, i)    // int: 0
 fmt.Printf("default %T: %f\n", f, f)    // float32: 0.000000
-fmt.Printf("default %T: %s\n", s, s)    // string: 
+fmt.Printf("default %T: %s\n", s, s)    // string:
 
 fmt.Println(reflect.TypeOf(0))          // int
 fmt.Println(reflect.TypeOf(1.0))        // float64
@@ -81,7 +78,6 @@ fmt.Println(reflect.TypeOf(true))       // bool
 fmt.Println(reflect.TypeOf("go"))       // string
 fmt.Println(reflect.TypeOf('g'))        // int32
 ```
-
 
 ---
 
@@ -99,7 +95,6 @@ fmt.Println("begin outter: ", foo)          // gp
 fmt.Println("end outter: ", foo)            // go
 ```
 
-
 ```go
 foo := "go"
 
@@ -111,7 +106,6 @@ fmt.Println("begin outter: ", foo)          // go
 }
 fmt.Println("end outter: ", foo)            // hello
 ```
-
 
 ---
 

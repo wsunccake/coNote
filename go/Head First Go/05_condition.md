@@ -33,7 +33,6 @@ if err := f.Close(); err != nil {
 }
 ```
 
-
 ---
 
 ## switch

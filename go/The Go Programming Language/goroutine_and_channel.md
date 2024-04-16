@@ -27,7 +27,6 @@ func fib(x int) int {
 }
 ```
 
-
 ---
 
 ## example: concurrent clock server
@@ -175,7 +174,6 @@ $ ./clock2 &
                     $ killall clock2
 ```
 
-
 ---
 
 ## example: concurrent echo server
@@ -267,7 +265,6 @@ Yooo-hooo!
 $ killall reverb2
 ```
 
-
 ---
 
 ## channel
@@ -285,7 +282,6 @@ ch = make(chan int)    // unbuffered channel
 ch = make(chan int, 0) // unbuffered channel
 ch = make(chan int, 3) // buffered channel with capacity 3
 ```
-
 
 ### unbuffered channel
 
@@ -308,10 +304,9 @@ func main() {
 }
 ```
 
-
 ### pipeline
 
-Counter --->  Squarer ---> Printer
+Counter ---> Squarer ---> Printer
 
 ```go
 // pipeline1
@@ -371,7 +366,6 @@ func main() {
 }
 ```
 
-
 ### unidirectional channel type
 
 ```go
@@ -405,7 +399,6 @@ func main() {
 }
 ```
 
-
 ### buffered channel
 
 ```go
@@ -421,7 +414,6 @@ fmt.Println(len(ch))  // "2"
 fmt.Println(<-ch)     // "B"
 fmt.Println(<-ch)     // "C"
 ```
-
 
 ---
 
@@ -546,11 +538,9 @@ func makeThumbnails6(filenames <-chan string) int64 {
 }
 ```
 
-
 ---
 
 ## example: concurrent web crawler
-
 
 ---
 
