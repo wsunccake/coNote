@@ -116,3 +116,21 @@ s.chars().for_each(|c| {
 ```rust
 vec1 == vec2
 ```
+
+```rust
+for i in 0..vec1.len() {
+    println!("{:?}", i);
+}
+
+for v in vec1.iter() {
+        println!("{:?}", v);
+}
+
+for (pos, value) in vec1.iter().enumerate() {
+        println!("{:?}, {:?}", pos, value);
+}
+```
+
+```rust
+let mut dp: Vec<Vec<i32>> = vec![vec![0; n]; m];
+```
