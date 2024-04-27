@@ -74,3 +74,29 @@ sorted(list1) == sorted(list2)
 # fast
 ''.join(sorted(list1)) == ''.join(sorted(list2))
 ```
+
+```python
+m = len(str1)
+n = len(str2)
+# n > m
+
+# slow
+for i in range(n):
+    for j in range(m):
+        if str1[j] != str2[i+j]:
+            break
+    if str1[j] != str2[i+j]:
+        return True
+return False
+
+# normal
+for i in range(n-m):
+    if str1 == str2[i:i+m]:
+        return True
+return False
+
+# trick
+if str1 in str2:
+    return True
+return False
+```

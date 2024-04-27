@@ -61,7 +61,7 @@ if __name__ == '__main__':
     inputs2 = ["ros", "execution",]
     outputs = [3, 5]
 
-    for idx in range(len(outputs)):
-        ans = sol.minDistance(inputs1[idx], inputs2[idx])
-        if ans != outputs[idx]:
-            print(f'{inputs1[idx]}, {inputs2[idx]}, {ans}, {outputs[idx]}')
+    for pos in range(len(outputs)):
+        ans = sol.minDistance(inputs1[pos], inputs2[pos])
+        if ans != outputs[pos]:
+            print(f'{inputs1[pos]}, {inputs2[pos]}, {ans}, {outputs[pos]}')

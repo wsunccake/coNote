@@ -111,6 +111,22 @@ s.chars().for_each(|c| {
 
 ---
 
+## string
+
+str: immutable sequence of UTF-8 bytes of dynamic length
+
+String: dynamic heap string type
+
+```rust
+
+let s0: &str = "Hello, world!";
+
+let mut s1 = String::from("hello");
+let s2: &String = &s1;
+```
+
+---
+
 ## vector
 
 ```rust
