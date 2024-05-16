@@ -139,7 +139,7 @@ for i in 0..vec1.len() {
 }
 
 for v in vec1.iter() {
-        println!("{:?}", v);
+    println!("{:?}", v);
 }
 
 for (pos, value) in vec1.iter().enumerate() {
