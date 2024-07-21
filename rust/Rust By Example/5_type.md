@@ -1,25 +1,28 @@
+# 5. type
+
+## 5.1 casting
+
+```rust
 // Suppress all warnings from casts which overflow.
 #![allow(overflowing_literals)]
 
 fn main() {
     let decimal = 65.4321_f32;
 
-    // Error! No implicit conversion
+    // error! no implicit conversion
     // let integer: u8 = decimal;
-    // FIXME ^ Comment out this line
 
-    // Explicit conversion
+    // explicit conversion
     let integer = decimal as u8;
     let character = integer as char;
 
-    // Error! There are limitations in conversion rules.
-    // A float cannot be directly converted to a char.
+    // error! limitation in conversion rules
+    // float cannot be directly converted to char
     // let character = decimal as char;
-    // FIXME ^ Comment out this line
 
     println!("Casting: {} -> {} -> {}", decimal, integer, character);
 
-    // when casting any value to an unsigned type, T,
+    // when casting any value to an unsigned type, T
     // T::MAX + 1 is added or subtracted until the value
     // fits into the new type
 
@@ -33,7 +36,7 @@ fn main() {
     // -1 + 256 = 255
     println!("  -1 as a u8 is : {}", (-1i8) as u8);
 
-    // For positive numbers, this is the same as the modulus
+    // positive numbers, this is the same as the modulus
     println!("1000 mod 256 is : {}", 1000 % 256);
 
     // When casting to a signed type, the (bitwise) result is the same as
@@ -43,7 +46,7 @@ fn main() {
     // Unless it already fits, of course.
     println!(" 128 as a i16 is: {}", 128 as i16);
 
-    // 128 as u8 -> 128, whose value in 8-bit two's complement representation is:
+    // In boundary case 128 value in 8-bit two's complement representation is -128
     println!(" 128 as a i8 is : {}", 128 as i8);
 
     // repeating the example above
@@ -64,9 +67,6 @@ fn main() {
     // nan as u8 is 0
     println!("   nan as u8 is : {}", f32::NAN as u8);
 
-    // This behavior incurs a small runtime cost and can be avoided
-    // with unsafe methods, however the results might overflow and
-    // return **unsound values**. Use these methods wisely:
     unsafe {
         // 300.0 as u8 is 44
         println!(" 300.0 as u8 is : {}", 300.0_f32.to_int_unchecked::<u8>());
@@ -79,3 +79,60 @@ fn main() {
         println!("   nan as u8 is : {}", f32::NAN.to_int_unchecked::<u8>());
     }
 }
+```
+
+## 5.2 literal
+
+```rust
+fn main() {
+    // suffix literals
+    let x = 1u8;
+    let y = 2u32;
+    let z = 3f32;
+
+    // unsuffixed literals
+    let i = 1;
+    let f = 1.0;
+
+    // `size_of_val` returns the size of a variable in bytes
+    println!("size of `x` in bytes: {}", std::mem::size_of_val(&x));
+    println!("size of `y` in bytes: {}", std::mem::size_of_val(&y));
+    println!("size of `z` in bytes: {}", std::mem::size_of_val(&z));
+    println!("size of `i` in bytes: {}", std::mem::size_of_val(&i));
+    println!("size of `f` in bytes: {}", std::mem::size_of_val(&f));
+}
+```
+
+## 5.3 inference
+
+```rust
+fn main() {
+    let elem = 5u8;
+
+    let mut vec = Vec::new();
+    vec.push(elem);
+
+    println!("{:?}", vec);
+}
+```
+
+## 5.4 alias
+
+```rust
+type NanoSecond = u64;
+type Inch = u64;
+type U64 = u64;
+
+fn main() {
+    // `NanoSecond` = `Inch` = `U64` = `u64`.
+    let nanoseconds: NanoSecond = 5 as U64;
+    let inches: Inch = 2 as U64;
+
+    println!(
+        "{} nanoseconds + {} inches = {} unit?",
+        nanoseconds,
+        inches,
+        nanoseconds + inches
+    );
+}
+```
