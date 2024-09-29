@@ -15,6 +15,102 @@ sum(x, y) = x + y - 2 * x * y
 carry(x, y) = x * y
 ```
 
+---
+
+## 4-2 布林代數 / Boolean Algebra
+
+### 4-2-1 真值表
+
+### 文氏圖
+
+### 布林代數的公設與定理
+
+#### 公設 / postulates
+
+`恆等律 / Identity Law`
+
+```math
+X+0 = X
+X*1 = X
+```
+
+`交換律 / Commutative Law`
+
+```math
+X+Y = Y+X
+X*Y = Y*X
+```
+
+`結合律 / Associative Law`
+
+```math
+X+(Y+Z) = (X+Y)+Z
+X*(Y*Z) = (X*Y)*Z
+```
+
+`分配律 / Distributive Law`
+
+```math
+X+(Y*Z) = (X+Y) * (X+Z)
+X*(Y+Z) = (X*Y) + (X*Z)
+```
+
+` 互補律 / Complement Law`
+
+```math
+X+X' = 1
+X*X' = 0
+```
+
+#### 定理 / theorem
+
+`冪等律 / Idempotent Law`
+
+```math
+X+X = X
+X*X = X
+```
+
+`零律和單位律 / Null and Domination Law`
+
+```math
+X+1 = 1
+X*0 = 0
+```
+
+`雙重否定律 / Double Negation Law`
+
+```math
+(X')' = X
+```
+
+`吸收律 / Absorption Law`
+
+```math
+X+(X*Y) = X
+X*(X+Y) = X
+X+(X'Y) = Y
+X*(X'+Y) = XY
+```
+
+`德摩根定律 / De Morgan's Laws`
+
+```math
+(X+Y)' = X'*Y'
+(X*Y)' = X'+Y'
+```
+
+`重合定律 /`
+
+```math
+X*Y+X'*Z+YZ = XY + X'Z
+(X+Y)*(X'+Z)*(Y+Z) = (X+Y)*(X'+Z)
+```
+
+---
+
+## 4-3 邏輯閘
+
 ### AND gate
 
 ```
@@ -135,14 +231,6 @@ f(x, y) = 1 - (x + y - 2 * x * y)
 
 - [反互斥或閘](https://zh.wikipedia.org/zh-tw/%E5%90%8C%E6%88%96%E9%97%A8)
 - [XNOR gate](https://en.wikipedia.org/wiki/XNOR_gate)
-
----
-
-## 4-2 布林代數 / Boolean Algebra
-
----
-
-## 4-3 邏輯閘
 
 ---
 

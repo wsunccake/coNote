@@ -62,7 +62,7 @@ Exa  Byte / EB => 2^60 Bytes = 1,152,921,504,606,846,976 Bytes
                         123.64
                             ||
 .8125 * 8 = 6.5 = .5 + 6 -- ||
-.5 * 8 =4.0 = 4 -------------|
+.5    * 8 = 4.0 = .0 + 4 ----|
 ```
 
 ```
@@ -117,7 +117,7 @@ bit        ~ signed integer/ decimal
 
 ### 2's complement / 2 補數
 
-- 該數取 not + 1, 為其補數, c = ~n
+- 該數取 not + 1, 為其補數, c = ~n + 1
 - 該數 + 補數 = 0
 - 沒有 -0
 
@@ -457,6 +457,8 @@ G0           G1          G2
 
 ## 3-6 浮點數表示法
 
+Floating-Point 對比 Fixed-Point
+
 `單精度浮點數 / Single Precision Floating-Point`
 
 單精度浮點數使用 32 bit (4 byte) 來表示一個浮點數
@@ -504,6 +506,10 @@ G0           G1          G2
 0 ∣ 10000011 ∣ 01101000000000000000000
 ```
 
+Truncation Error
+
+Normalized Form
+
 `雙精度浮點數 / Double Precision Floating-Point`
 
 是一種用來表示實數的數字格式，它通常使用 64 bit (8 byte) 來表示一個浮點數
@@ -527,9 +533,51 @@ G0           G1          G2
 
 ## 3-7 文字表示法
 
+### ASCII
+
+### EASCII
+
+### EBCDIC
+
+### Big5
+
+### Unicode
+
+### UTF-8
+
 ---
 
 ## 3-8 圖形表示法
+
+### bitmap
+
+dpi: dots per inch
+
+ppi: pixels per inch
+
+```
+color               bit
+黑白                 1
+灰階                 2
+16 色                4
+256 色               8
+高彩 / high color    16
+全彩 / true color    24
+```
+
+```
+800x600 全彩 圖片檔案大小
+=> 800 * 600 * 24
+= 11,520,000 bit
+= 11,520,000 / 8 byte
+= 1,440,000 B
+= 1,440,000 / 1,024 B
+= 1,406.25 KB
+~ 1.37 MB
+~ 1.4 MB
+```
+
+### vector
 
 ---
 
