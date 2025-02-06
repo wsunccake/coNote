@@ -45,17 +45,19 @@ func twoDimensionEqual(d1 [][]int, d2 [][]int) bool {
 }
 
 func main() {
-	i := [][]int{{1, 1, 1}, {1, 0, 1}, {1, 1, 1}}
-	o := [][]int{{1, 0, 1}, {0, 0, 0}, {1, 0, 1}}
-	setZeroes(i)
-	if !twoDimensionEqual(i, o) {
-		fmt.Println(i, o)
+	inputs := [][][]int{
+		{{1, 1, 1}, {1, 0, 1}, {1, 1, 1}},
+		{{0, 1, 2, 0}, {3, 4, 5, 2}, {1, 3, 1, 5}},
+	}
+	outputs := [][][]int{
+		{{1, 0, 1}, {0, 0, 0}, {1, 0, 1}},
+		{{0, 0, 0, 0}, {0, 4, 5, 0}, {0, 3, 1, 0}},
 	}
 
-	i = [][]int{{0, 1, 2, 0}, {3, 4, 5, 2}, {1, 3, 1, 5}}
-	o = [][]int{{0, 0, 0, 0}, {0, 4, 5, 0}, {0, 3, 1, 0}}
-	setZeroes(i)
-	if !twoDimensionEqual(i, o) {
-		fmt.Println(i, o)
+	for pos := 0; pos < len(outputs); pos++ {
+		setZeroes(inputs[pos])
+		if !twoDimensionEqual(inputs[pos], outputs[pos]) {
+			fmt.Println(inputs[pos], outputs[pos])
+		}
 	}
 }

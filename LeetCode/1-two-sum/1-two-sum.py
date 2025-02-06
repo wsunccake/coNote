@@ -1,5 +1,8 @@
+from typing import List
+
+
 class Solution:
-    def twoSum(self, nums: 'List[int]', target: 'int') -> 'List[int]':
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
         result = [0, 0]
         for num in nums:
             goal = target - num
@@ -13,7 +16,7 @@ class Solution:
 
 
 # class Solution:
-#     def twoSum(self, nums: 'List[int]', target: 'int') -> 'List[int]':
+#     def twoSum(self, nums: List[int], target: int) -> List[int]:
 #         result = [0, 0]
 #         for num_index, num in enumerate(nums[:-1]):
 #             goal = target - num
@@ -25,7 +28,7 @@ class Solution:
 
 
 # class Solution:
-#     def twoSum(self, nums: 'List[int]', target: 'int') -> 'List[int]':
+#     def twoSum(self, nums: List[int], target: int) -> List[int]:
 #         tmp_dict = {}
 #         for index, num in enumerate(nums):
 #             goal = target - num
@@ -38,20 +41,12 @@ class Solution:
 if __name__ == '__main__':
     sol = Solution()
 
-    q = [1, 2, 3]
-    target = 6
-    ans1 = 0
-    ans2 = 0
-    assert sol.twoSum(q, target) == [ans1, ans2], 'Fail'
+    inputs1 = [[1, 2, 3], [3, 2, 4], [3, 3]]
+    inputs2 = [6, 6, 6]
+    outputs = [[0, 0], [1, 2], [0, 1]]
 
-    q = [3, 2, 4]
-    target = 6
-    ans1 = 1
-    ans2 = 2
-    assert sol.twoSum(q, target) == [ans1, ans2], 'Fail'
-
-    q = [3, 3]
-    target = 6
-    ans1 = 0
-    ans2 = 1
-    assert sol.twoSum([3, 3], 6) == [0, 1], 'Fail'
+    for pos in range(len(outputs)):
+        assert ans == outputs[pos], 'Fail'
+        if ans != outputs[pos]:
+            print(f'{inputs1[pos]}, {inputs2[pos]}, {ans}, {outputs[pos]}')
+        ans = sol.twoSum(inputs1[pos], inputs2[pos])
