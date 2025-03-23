@@ -1,0 +1,52 @@
+[BITS 16]
+ORG 0x7C00   ; BIOS 會載入 MBR 到 0x7C00
+
+start:
+    DB 0xB4, 0x0E  ; MOV AH, 0Eh   ; 設定 BIOS 文字輸出功能
+    DB 0xB0, 0x48  ; MOV AL, 'H'   ; 字元 'H'
+    DB 0xCD, 0x10  ; INT 10h        ; 顯示字元
+
+    DB 0xB0, 0x65  ; MOV AL, 'e'
+    DB 0xCD, 0x10  ; INT 10h
+
+    DB 0xB0, 0x6C  ; MOV AL, 'l'
+    DB 0xCD, 0x10  ; INT 10h
+
+    DB 0xB0, 0x6C  ; MOV AL, 'l'
+    DB 0xCD, 0x10  ; INT 10h
+
+    DB 0xB0, 0x6F  ; MOV AL, 'o'
+    DB 0xCD, 0x10  ; INT 10h
+
+    DB 0xB0, 0x20  ; MOV AL, ' '   ; 顯示空格
+    DB 0xCD, 0x10  ; INT 10h
+
+    DB 0xB0, 0x57  ; MOV AL, 'W'
+    DB 0xCD, 0x10  ; INT 10h
+
+    DB 0xB0, 0x6F  ; MOV AL, 'o'
+    DB 0xCD, 0x10  ; INT 10h
+
+    DB 0xB0, 0x72  ; MOV AL, 'r'
+    DB 0xCD, 0x10  ; INT 10h
+
+    DB 0xB0, 0x6C  ; MOV AL, 'l'
+    DB 0xCD, 0x10  ; INT 10h
+
+    DB 0xB0, 0x64  ; MOV AL, 'd'
+    DB 0xCD, 0x10  ; INT 10h
+
+    DB 0xB0, 0x21  ; MOV AL, '!'
+    DB 0xCD, 0x10  ; INT 10h
+
+    DB 0xF4        ; HLT (停止執行)
+
+    ; 透過 DB 定義 0 填充到 510 Bytes
+    %assign i ($ - $$)
+    %rep 510 - i
+        DB 0
+    %endrep
+
+    ; 透過 DB 定義 0xAA55 (Little Endian)
+    DB 0x55, 0xAA
+
