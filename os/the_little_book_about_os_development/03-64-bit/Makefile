@@ -19,11 +19,12 @@ all: kernel.elf
 	$(AS) $(ASFLAGS) $< -o $@
 
 kernel.elf: $(OBJECTS)
-	mkdir -p iso/boot/grub
-	$(LD) $(LDFLAGS) $(OBJECTS) -o iso/boot/kernel.elf
-	cp grub.cfg iso/boot/grub
+	$(LD) $(LDFLAGS) $(OBJECTS) -o kernel.elf
 
 img: kernel.elf
+	mkdir -p iso/boot/grub
+	cp kernel.elf iso/boot
+	cp grub.cfg iso/boot/grub
 	grub-mkrescue -o ${IMG} iso
 
 check: kernel.elf
@@ -35,7 +36,7 @@ run: img
 	qemu-system-x86_64 -cdrom ${IMG} -nographic -serial mon:stdio
 
 clean:
-	@rm -rfv *.o 
+	@rm -rfv *.o kernel.elf
 
 clean_build: clean
 	@rm -rfv iso

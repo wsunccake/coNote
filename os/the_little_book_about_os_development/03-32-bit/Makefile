@@ -20,28 +20,29 @@ all: kernel.elf
 	$(AS) $(ASFLAGS) $< -o $@
 
 kernel.elf: $(OBJECTS)
-	mkdir -p iso/boot/grub
-	$(LD) $(LDFLAGS) $(OBJECTS) -o iso/boot/kernel.elf
+	$(LD) $(LDFLAGS) $(OBJECTS) -o kernel.elf
 
 img: kernel.elf
+	mkdir -p iso/boot/grub
+	cp kernel.elf iso/boot
 	cp menu.lst iso/boot/grub
 	cp stage2_eltorito iso/boot/grub
-	genisoimage -R                              \
-                    -b boot/grub/stage2_eltorito    \
-                    -no-emul-boot                   \
-                    -boot-load-size 4               \
-                    -A os                           \
-                    -input-charset utf8             \
-                    -quiet                          \
-                    -boot-info-table                \
-                    -o os.iso                       \
-                    iso
+	genisoimage -R \
+      -b boot/grub/stage2_eltorito \
+      -no-emul-boot \
+      -boot-load-size 4 \
+      -A os \
+      -input-charset utf8 \
+      -quiet \
+      -boot-info-table \
+      -o os.iso \
+      iso
 
 run: img
 	${QEMU} -cdrom ${IMG} -nographic -serial mon:stdio
 
 clean:
-	@rm -rfv *.o 
+	@rm -rfv *.o kernel.elf
 
 clean_build: clean
 	@rm -rfv iso
@@ -68,4 +69,3 @@ help:
 	clean
 	clean_build
 	clean_all
-

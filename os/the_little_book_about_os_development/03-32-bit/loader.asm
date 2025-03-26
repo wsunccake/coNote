@@ -1,4 +1,4 @@
-global loader                   ; the entry symbol for ELF
+global loader                       ; the entry symbol for ELF
 
     MAGIC_NUMBER equ 0x1BADB002     ; define the magic number constant
     FLAGS        equ 0x0            ; multiboot flags
@@ -19,17 +19,15 @@ global loader                   ; the entry symbol for ELF
         dd CHECKSUM                 ; and the checksum
 
     loader:                         			; the loader label (defined as entry point in linker script)
-    mov esp, kernel_stack + KERNEL_STACK_SIZE   	; point esp to the start of the
-                                                	; stack (end of memory area)
-        
-        
+    mov esp, kernel_stack + KERNEL_STACK_SIZE   ; point esp to the start of the
+                                                ; stack (end of memory area)
+
     ; The assembly code
     extern sum_of_three   		  ; the function sum_of_three is defined elsewhere
     push dword 3           		  ; arg3
-    push dword 2            	     	  ; arg2
-    push dword 1            		  ; arg1
-    call sum_of_three                   ; call the function, the result will be in eax
-    
-    
+    push dword 2            	  ; arg2
+    push dword 1            	  ; arg1
+    call sum_of_three             ; call the function, the result will be in eax
+        
     .loop:
-        jmp .loop                   ; loop forever
+        jmp .loop                 ; loop forever
