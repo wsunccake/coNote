@@ -1,18 +1,31 @@
-OBJECTS = loader.o kmain.o
 CC = gcc
 CFLAGS = -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
          -nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c
-LDFLAGS = -T link.ld -melf_i386
 AS = nasm
 ASFLAGS = -f elf
+LD = ld
+LDFLAGS = -T link.ld -melf_i386
+
+OBJECTS = loader.o kmain.o
+IMG = os.iso
+QEMU = qemu-system-i386
+
 
 all: kernel.elf
 
-kernel.elf: $(OBJECTS)
-	ld $(LDFLAGS) $(OBJECTS) -o kernel.elf
+%.o: %.c
+	$(CC) $(CFLAGS)  $< -o $@
 
-os.iso: kernel.elf
-	cp kernel.elf iso/boot/kernel.elf
+%.o: %.asm
+	$(AS) $(ASFLAGS) $< -o $@
+
+kernel.elf: $(OBJECTS)
+	mkdir -p iso/boot/grub
+	$(LD) $(LDFLAGS) $(OBJECTS) -o iso/boot/kernel.elf
+
+img: kernel.elf
+	cp menu.lst iso/boot/grub
+	cp stage2_eltorito iso/boot/grub
 	genisoimage -R                              \
                     -b boot/grub/stage2_eltorito    \
                     -no-emul-boot                   \
@@ -24,14 +37,35 @@ os.iso: kernel.elf
                     -o os.iso                       \
                     iso
 
-run: os.iso
-	qemu-system-i386 -cdrom os.iso -nographic -serial mon:stdio
-
-%.o: %.c
-	$(CC) $(CFLAGS)  $< -o $@
-
-%.o: %.asm
-	$(AS) $(ASFLAGS) $< -o $@
+run: img
+	${QEMU} -cdrom ${IMG} -nographic -serial mon:stdio
 
 clean:
-	rm -rf *.o kernel.elf os.iso iso/boot/kernel.elf
+	@rm -rfv *.o 
+
+clean_build: clean
+	@rm -rfv iso
+
+clean_all: clean_build
+	@rm -rfv ${IMG}
+
+help:
+	@echo "help        : help"
+	@echo "all         : build kernel.elf"
+	@echo "check       : check kernel.elf"
+	@echo "img         : build image"
+	@echo "run         : use qemu boot"
+	@echo "clean       : remove all object"
+	@echo "clean_build : remove all object and build folder"
+	@echo "clean_all   : remove all object and build folder, image"
+
+.PHONY:
+	help
+	all
+	img
+	check
+	run
+	clean
+	clean_build
+	clean_all
+
