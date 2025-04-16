@@ -36,7 +36,8 @@ typedef enum VGAColor FB_COLOR;
 
 void fb_write_cell_byte(unsigned int i, char c, unsigned char fg, unsigned char bg);
 void fb_write_cell_location(unsigned int i, char c, unsigned char fg, unsigned char bg);
-
+void fb_write_cell_location_rc(unsigned int row, unsigned int col, char c, unsigned char fg, unsigned char bg);
+void fb_write(unsigned int row, unsigned int col, char *str, unsigned char fg, unsigned char bg);
 void fb_clear();
 
 void fb_move_cursor(unsigned char pos);

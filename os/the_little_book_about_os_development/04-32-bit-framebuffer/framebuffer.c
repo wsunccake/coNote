@@ -15,6 +15,21 @@ void fb_write_cell_location(unsigned int i, char c, unsigned char fg, unsigned c
     fb[i * 2] = c;
     fb[i * 2 + 1] = ((bg & 0x0F) << 4) | (fg & 0x0F);
 }
+void fb_write_cell_location_rc(unsigned int row, unsigned int col, char c, unsigned char fg, unsigned char bg)
+{
+    unsigned int pos = row * FB_WIDTH + col;
+    fb_write_cell_location(pos, c, fg, bg);
+}
+
+void fb_write(unsigned int row, unsigned int col, char *str, unsigned char fg, unsigned char bg)
+{
+    unsigned int pos = row * FB_WIDTH + col;
+
+    for (unsigned int i = 0; str[i] != '\0'; i++)
+    {
+        fb_write_cell_location(pos + i, str[i], fg, bg);
+    }
+}
 
 void fb_clear()
 {

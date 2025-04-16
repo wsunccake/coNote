@@ -1,5 +1,7 @@
 #include "framebuffer.h"
 
+char MESSAGE[] = "MakeOS";
+
 void kmain()
 {
 	fb_clear();
@@ -16,6 +18,11 @@ void kmain()
 	fb_write_cell_location(10, 'l', LIGHT_GRAY, BLACK);
 	fb_write_cell_location(11, 'd', LIGHT_GRAY, BLACK);
 
+	fb_write_cell_location_rc(1, 0, 'O', LIGHT_GRAY, BLACK);
+	fb_write_cell_location_rc(1, 1, 'S', LIGHT_GRAY, BLACK);
+
 	fb_write_cell_location(12, ' ', LIGHT_GRAY, BLACK);
 	fb_move_cursor(12);
+
+	fb_write(2, 0, MESSAGE, WHITE, BLACK);
 }
