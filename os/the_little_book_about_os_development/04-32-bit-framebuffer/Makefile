@@ -9,7 +9,7 @@ LDFLAGS = -T link.ld -melf_i386
 OBJECTS = loader.o kmain.o io.o framebuffer.o
 IMG = os.iso
 QEMU = qemu-system-i386
-
+GRUB_DIR = ../grub
 
 all: kernel.elf
 
@@ -25,8 +25,8 @@ kernel.elf: $(OBJECTS)
 img: kernel.elf
 	mkdir -p iso/boot/grub
 	cp kernel.elf iso/boot
-	cp menu.lst iso/boot/grub
-	cp stage2_eltorito iso/boot/grub
+	cp ${GRUB_DIR}/menu.lst iso/boot/grub
+	cp ${GRUB_DIR}/stage2_eltorito iso/boot/grub
 	genisoimage -R \
 	  -b boot/grub/stage2_eltorito \
 	  -no-emul-boot \
