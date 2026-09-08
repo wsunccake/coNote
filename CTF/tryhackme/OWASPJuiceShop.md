@@ -32,6 +32,8 @@ SELECT * FROM users WHERE username = '' OR 1=1 --AND password = '<password>';
 SELECT * FROM users WHERE username = '<username>' OR 1=1 --AND password = '<password>';
 ```
 
+---
+
 ## flow
 
 ```bash
